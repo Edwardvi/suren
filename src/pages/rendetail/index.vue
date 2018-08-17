@@ -3,24 +3,38 @@
     <div class="Top"></div>
     <div class="bar">
       <div class="GALLERY">GALLERY</div>
-
+      <div class="GALLERY">FAV</div>
+      <div class="GALLERY">HOST</div>
     </div>
-
-    
+    <div class="xx">
+      <pic>
+      </pic>
+    </div>
   </div>
 
 </template>
 
 <script>
+import pic from '@/components/pic';
+
 export default {
-    
+  components: {
+    pic
+  },
+
+  
 }
 </script>
 <style scoped>
-.container{
-
+.container {
+  padding: 0;
 }
 
+.xx {
+  margin-top: 2px;
+  height: 356px;
+  
+}
 
 .Top {
   width: 100%;
@@ -29,6 +43,9 @@ export default {
 }
 
 .bar {
+  display: flex;
+  flex-flow:row nowrap;
+  justify-content: space-between;
   width: 100%;
   height: 48px;
   background-color: #431c60;
@@ -36,14 +53,14 @@ export default {
 }
 
 .GALLERY {
-  width: 54px;
-  height: 19px;
+  width: 100%;
+  height: 16px;
   font-family: Runda;
   font-size: 14px;
   font-weight: 500;
   font-style: normal;
   font-stretch: normal;
-  line-height: 2.64;
+  line-height: 3.2;
   letter-spacing: normal;
   text-align: center;
   color: #ffffff;

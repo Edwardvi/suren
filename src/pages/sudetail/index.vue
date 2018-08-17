@@ -57,10 +57,8 @@ testObject.save({
 })
 
 export default {
-
-
   components: {
-   pic
+    pic
   },
 
   methods: {

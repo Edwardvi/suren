@@ -23,6 +23,7 @@ export default {
 <style>
 .piclist {
   display: flex;
+  flex-flow: row wrap;
 }
 
 .tu {
