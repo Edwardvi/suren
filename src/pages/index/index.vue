@@ -7,8 +7,8 @@
         <card :text="motto"></card>
         <card :text="userInfo.nickName"></card>
         <div class="yishuzi">
-          <a href="/pages/su/main" class="counter">宿</a>
-          <a href="/pages/ren/main" class="counter">人</a>
+          <a href="/pages/go/main" class="counter">宿</a>
+          <a href="/pages/su/main" class="counter">人jjjj</a>
         </div>
         
       </div>

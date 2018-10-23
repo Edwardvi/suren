@@ -1082,17 +1082,17 @@
   }
   
   .weui-navbar__item.weui-bar__item_on {
-    color: #1aad19;
+    color: #fff;
   }
   
   .weui-navbar__slider {
     position: absolute;
     content: " ";
     left: 0;
-    bottom: 0;
+    /* bottom: 0; 注释后位置变了*/
     width: 6em;
     height: 3px;
-    background-color: #1aad19;
+    background-color: #fff;
     -webkit-transition: -webkit-transform 0.3s;
     transition: -webkit-transform 0.3s;
     transition: transform 0.3s;
@@ -1118,7 +1118,7 @@
   .weui-tab__panel {
     box-sizing: border-box;
     height: 100%;
-    padding-top: 50px;
+    padding-top: 0;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
   }

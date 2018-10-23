@@ -1,5 +1,5 @@
 <template>
-    <div class="userinfo">
+    <a class="userinfo" href="/pages/rendetail/main" >
       <div class="Base-Chip-for-User">
         <div class="Avatar"> 
         </div>
@@ -8,7 +8,7 @@
         <div class="yijuhua">{{userInfoyijuhua}}
         </div>    
       </div>
-    </div>
+    </a>
 </template>
 
 <script>
@@ -46,8 +46,8 @@ export default {
   height: 180px;
   mix-blend-mode: undefined;
   border-radius: 2px;
-  -webkit-backdrop-filter: blur(30px);
-  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   background-color: #ffffff;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.55);
 }

@@ -6,7 +6,10 @@
     "pages/ren/main",
     "pages/su/main",
     "pages/sudetail/main",
-    "pages/rendetail/main"
+    "pages/rendetail/main",
+    "pages/go/main",
+    "pages/login/main"
+
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -48,13 +48,36 @@ AV.init({
   appId: APP_ID,
   appKey: APP_KEY
 });
-var TestObject = AV.Object.extend('TestObject');
-var testObject = new TestObject();
-testObject.save({
-  words: 'Hello World!'
-}).then(function(object) {
-  alert('LeanCloud Rocks!');
-})
+// var TestObject = AV.Object.extend('TestObject');
+// var testObject = new TestObject();
+// testObject.save({
+//   words: 'Hh! change test'
+// }).then(function(object) {
+//   alert('LeanCloud Rocks!');
+// })
+// var SuList = AV.Object.extend('SuList');
+// var sulist  = new SuList();
+// sulist.save({
+//   su:'heiheidesu' 
+// }).then(function(object) {
+//   alert('LeanCloud ddd!');
+// })
+
+  // 声明类型
+  var TodoFolder = AV.Object.extend('TodoFolder');
+  // 新建对象
+  var todoFolder = new TodoFolder();
+  // 设置名称
+  todoFolder.set('name','工作');
+  // 设置优先级
+  todoFolder.set('priority',1);
+  todoFolder.save().then(function (todo) {
+    console.log('objectId is ' + todo.id);
+  }, function (error) {
+    console.error(error);
+  });
+
+
 
 export default {
   components: {

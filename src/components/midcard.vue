@@ -1,12 +1,12 @@
 <template>
-    <div class="nathan">
+    <a class="nathan" href="/pages/sudetail/main" >
       <div class="dibu">
-        <div class="Brew"> {{text}}
+        <div class="Brew"> 嘿嘿的民宿{{text}}
         </div>
-        <div class="COFFEE">{{text1}}
+        <div class="COFFEE">莎莎屋主{{text1}}
         </div>    
       </div>
-    </div>
+    </a>
 </template>
 
 <script>
@@ -21,49 +21,47 @@ export default {
 
 <style scoped>
 .nathan {
-  width: 162px;
-  height: 199px;
+  width: 48%;
+  height: 200px;
   border-radius: 2px;
   box-shadow: 0 4px 3px 0 rgba(0, 0, 0, 0.16);
   background: pink;
   display: flex;
   flex-flow: row wrap-reverse;
-  margin: 4px
+  margin: 3px;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
   
 }
 
 .dibu {
-  width: 162px;
-  height: 57.7px;
-  -webkit-backdrop-filter: blur(16.6px);
-  backdrop-filter: blur(16.6px);
+  width: 100%;
+  height: 58px;
+  
   background-color: #ffffff;
   box-shadow: 0 4px 3px 0 rgba(0, 0, 0, 0.16);
 }
 
 .Brew {
-  width: 141.5px;
-  height: 17.9px;
   font-family: Runda;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   font-style: normal;
   font-stretch: normal;
-  line-height: 1.29;
+  padding-left: 10px;
+  padding-top: 10px;
   letter-spacing: normal;
   text-align: left;
   color: #454545;
 }
 
 .COFFEE {
-  width: 141.5px;
-  height: 12.9px;
   font-family: Runda;
-  font-size: 10px;
+  font-size: 14px;
   font-weight: normal;
   font-style: normal;
   font-stretch: normal;
-  line-height: 1.4;
+  padding-left: 10px;
   letter-spacing: 1px;
   text-align: left;
   color: #8e8e8e;

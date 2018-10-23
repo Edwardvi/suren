@@ -22,15 +22,17 @@ export default {
 
 <style>
 .piclist {
+  width: 100%;
   display: flex;
   flex-flow: row wrap;
+  justify-content: space-between
 }
 
 .tu {
   display: inline-block;
-  width: 90px;
+  width: 24%;
   height: 90px;
-  margin: 1px 1px 2px 3px;
+  padding: 0.5%;
   background: wheat;
 }
 </style>
