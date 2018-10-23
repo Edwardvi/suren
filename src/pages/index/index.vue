@@ -8,7 +8,7 @@
         <card :text="userInfo.nickName"></card>
         <div class="yishuzi">
           <a href="/pages/go/main" class="counter">宿</a>
-          <a href="/pages/su/main" class="counter">人jjjj</a>
+          <a href="/pages/su/main" class="counter">人</a>
         </div>
         
       </div>
@@ -18,6 +18,8 @@
 
 <script>
 import card from '@/components/card';
+
+
 
 export default {
   data() {

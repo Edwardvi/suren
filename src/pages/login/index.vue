@@ -22,18 +22,20 @@ var APP_KEY = 'SGci4c7EdxJRx2nMc7kRYU4E';
 var AV = require('leancloud-storage');
 
 
+
+
   // 新建 AVUser 对象实例
-  var user = new AV.User();
-  // 设置用户名
-  user.setUsername('Tom');
-  // 设置密码
-  user.setPassword('cat!@#123');
-  // 设置邮箱
-  user.setEmail('echoxi@qq.com');
-  user.signUp().then(function (loggedInUser) {
-      console.log(loggedInUser);
-  }, function (error) {
-  });
+  // var user = new AV.User();
+  // // 设置用户名
+  // user.setUsername('Tom');
+  // // 设置密码
+  // user.setPassword('cat!@#123');
+  // // 设置邮箱
+  // user.setEmail('echoxi@qq.com');
+  // user.signUp().then(function (loggedInUser) {
+  //     console.log(loggedInUser);
+  // }, function (error) {
+  // });
 
 
   // // 声明类型
@@ -58,6 +60,7 @@ export default {
   data () {
     return {
       massage: 'jjjj',
+      user: '',
     }},
   methods: {
     clickHandle(msg, ev) {
@@ -65,6 +68,24 @@ export default {
     },
   },
 };
+
+AV.User.loginWithWeapp().then(user => {
+  this.globalData.user = user.toJSON();
+}).catch(console.error);
+
+// 假设已经通过 AV.User.loginWithWeapp() 登录
+// 获得当前登录用户
+const user = AV.User.current();
+// 调用小程序 API，得到用户信息
+wx.getUserInfo({
+  success: ({userInfo}) => {
+    // 更新当前用户的信息
+    user.set(userInfo).save().then(user => {
+      // 成功，此时可在控制台中看到更新后的用户信息
+      this.globalData.user = user.toJSON();
+    }).catch(console.error);
+  }
+});
 </script>
 
 
