@@ -4,88 +4,84 @@
       <div class="step">1/2 step</div> 
       <div class="layer">我们承诺决不向任何第三方透露信息 </div>
 
-      <input class="layer" v-model="message" placeholder="暱称">
-      <input class="layer" v-model="message" placeholder="密码">
-      <input class="layer" v-model="message" placeholder="邮箱">
-      <div class="layer">Message is: {{ message }}</div>
+      <input class="layer" v-model="Username" placeholder="暱称">
+      <input class="layer" v-model="Password" placeholder="密码">
+      <input class="layer" v-model="Email" placeholder="邮箱">
+      <div class="layer">Username is: {{ Username }}</div>
       <div class="dibu">
-          <a class="dibucontext">注册</a>
+          <a class="dibucontext" @click="login">注册</a>
       </div>
-   
   </div>
 </template>
 
 <script>
 
-var APP_ID = '10Ru3WJvNiOIlVYLvHejjqG1-gzGzoHsz';
-var APP_KEY = 'SGci4c7EdxJRx2nMc7kRYU4E';
-var AV = require('leancloud-storage');
+var AV = require("leancloud-storage");
 
 
-
-
-  // 新建 AVUser 对象实例
-  // var user = new AV.User();
-  // // 设置用户名
-  // user.setUsername('Tom');
-  // // 设置密码
-  // user.setPassword('cat!@#123');
-  // // 设置邮箱
-  // user.setEmail('echoxi@qq.com');
-  // user.signUp().then(function (loggedInUser) {
-  //     console.log(loggedInUser);
-  // }, function (error) {
-  // });
-
-
-  // // 声明类型
-  // var TodoFolder = AV.Object.extend('TodoFolder');
-  // // 新建对象
-  // var todoFolder = new TodoFolder();
-  // // 设置名称
-  // todoFolder.set('name','工作');
-  // // 设置优先级
-  // todoFolder.set('priority',1);
-  // todoFolder.save().then(function (todo) {
-  //   console.log('objectId IS ' + todo.id);
-  // }, function (error) {
-  //   console.error(error);
-  // });
-
-
+// 新建 AVUser 对象实例
+// var user = new AV.User();
+// // 设置用户名
+// user.setUsername('Tom');
+// // 设置密码
+// user.setPassword('cat!@#123');
+// // 设置邮箱
+// user.setEmail('echoxi@qq.com');
+//     user.signUp().then(function (loggedInUser) {
+//     console.log(loggedInUser);
+// }, function (error) {
+// });
 
 export default {
-  components: { 
-  },
-  data () {
+  components: {},
+  data() {
     return {
-      massage: 'jjjj',
-      user: '',
-    }},
+      Password: "",
+      Username: "",
+      Email: ""
+    };
+  },
+
   methods: {
     clickHandle(msg, ev) {
-      console.log('clickHandle:', msg, ev);
+      console.log("clickHandle:", msg, ev);
     },
+    login(Password, Username, Email) {
+      const user = AV.User.current();
+      user.setPassword(this.Password);
+      user.setUsername(this.Username);
+      user.setEmail(this.Email);
+      user
+        .save()
+        .then(user => {
+          // 成功，此时可在控制台中看到更新后的用户信息
+          this.globalData.user = user.toJSON();
+        })
+        .catch(console.error);
+    }
   },
-};
+  cerated() {
+    // 假设已经通过 AV.User.loginWithWeapp() 登录
+    // 获得当前登录用户
+    login();
 
-AV.User.loginWithWeapp().then(user => {
-  this.globalData.user = user.toJSON();
-}).catch(console.error);
-
-// 假设已经通过 AV.User.loginWithWeapp() 登录
-// 获得当前登录用户
-const user = AV.User.current();
-// 调用小程序 API，得到用户信息
-wx.getUserInfo({
-  success: ({userInfo}) => {
-    // 更新当前用户的信息
-    user.set(userInfo).save().then(user => {
-      // 成功，此时可在控制台中看到更新后的用户信息
-      this.globalData.user = user.toJSON();
-    }).catch(console.error);
+    // 调用小程序 API，得到用户信息
+    // wx.getUserInfo({
+    //   success: ({ userInfo }) => {
+    //     // 更新当前用户的信息
+    //     user
+    //       .set(userInfo)
+    //       .save()
+    //       .then(user => {
+    //         // 成功，此时可在控制台中看到更新后的用户信息
+    //         this.globalData.user = user.toJSON();
+    //       })
+    //       .catch(console.error);
+    //   }
+    // });
+    // console.log(1 + user.username)
   }
-});
+};
 </script>
 
 
@@ -95,9 +91,9 @@ wx.getUserInfo({
   padding: 0px 0;
   display: flex;
   flex-flow: row wrap;
-  justify-content:center;
-  align-content:center;
-  align-items:center
+  justify-content: center;
+  align-content: center;
+  align-items: center;
 }
 
 .step {
@@ -131,17 +127,16 @@ wx.getUserInfo({
   display: flex;
   flex-flow: column wrap;
   align-items: center;
-  justify-content:center;
+  justify-content: center;
   width: 100%;
   height: 56px;
   background-image: linear-gradient(82deg, #4527a0, #7b1fa2);
 }
 
-.dibucontext{
+.dibucontext {
   color: aliceblue;
   font-weight: 500;
   font-style: normal;
   font-stretch: normal;
- 
 }
 </style>

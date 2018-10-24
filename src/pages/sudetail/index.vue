@@ -40,14 +40,7 @@
 
 <script>
 import pic from '@/components/pic';
-var APP_ID = '10Ru3WJvNiOIlVYLvHejjqG1-gzGzoHsz';
-var APP_KEY = 'SGci4c7EdxJRx2nMc7kRYU4E';
-var AV = require('leancloud-storage');
 
-AV.init({
-  appId: APP_ID,
-  appKey: APP_KEY
-});
 // var TestObject = AV.Object.extend('TestObject');
 // var testObject = new TestObject();
 // testObject.save({
@@ -63,19 +56,19 @@ AV.init({
 //   alert('LeanCloud ddd!');
 // })
 
-  // 声明类型
-  var TodoFolder = AV.Object.extend('TodoFolder');
-  // 新建对象
-  var todoFolder = new TodoFolder();
-  // 设置名称
-  todoFolder.set('name','工作');
-  // 设置优先级
-  todoFolder.set('priority',1);
-  todoFolder.save().then(function (todo) {
-    console.log('objectId is ' + todo.id);
-  }, function (error) {
-    console.error(error);
-  });
+  // // 声明类型
+  // var TodoFolder = AV.Object.extend('TodoFolder');
+  // // 新建对象
+  // var todoFolder = new TodoFolder();
+  // // 设置名称
+  // todoFolder.set('name','工作');
+  // // 设置优先级
+  // todoFolder.set('priority',1);
+  // todoFolder.save().then(function (todo) {
+  //   console.log('objectId is ' + todo.id);
+  // }, function (error) {
+  //   console.error(error);
+  // });
 
 
 
