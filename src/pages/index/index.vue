@@ -23,7 +23,7 @@ var AV = require("leancloud-storage");
 export default {
   data() {
     return {
-      motto: "",
+      motto: "hello",
       // userInfo: {},
       user_name: []
     };
@@ -38,9 +38,12 @@ export default {
       const url = "../logs/main";
       wx.navigateTo({ url });
     },
-    // getcurrentuser() {
-
-    // },
+    getcurrentuser() {
+      const user = AV.User.current();
+      this.user_name = user.attributes.username;
+      console.log(user);
+      console.log(this.user_name);
+    },
 
     // getUserInfo() {
     //   // 调用登录接口
@@ -61,22 +64,16 @@ export default {
 
   created() {
     // 调用应用实例的方法获取全局数据
-    const user = AV.User.current();
-    // this.user = ;
-    var user_name ;
-    console.log(user);
-    console.log(user_name);
-    this.motto = 1111;
-    // this.getcurrentuser();
-    var getinfo = AV.Object.createWithoutData("_User", user.id);
-    getinfo.fetch().then(
-      function() {
-        var user_name = todo.get("username"); // 读取 username
-      },
-      function(error) {
-        // 异常处理
-      }
-    );
+    this.getcurrentuser();
+    // var getinfo = AV.Object.createWithoutData("_User", user.id);
+    // getinfo.fetch().then(
+    //   function() {
+    //     var user_name = todo.get("username"); // 读取 username
+    //   },
+    //   function(error) {
+    //     // 异常处理
+    //   }
+    // );
   }
 };
 </script>
