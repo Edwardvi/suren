@@ -16,9 +16,9 @@ import card from '@/components/card';
 export default {
   data() {
     return {
-      motto: '',
-      userInfo: 'edward',
-      userInfoyijuhua: '经纶事务者'
+      motto: [],
+      userInfo: [],
+      userInfoyijuhua: []
     };
   },
 
@@ -26,7 +26,7 @@ export default {
     card,
   },
   props: ['text'],
-};
+}; 
 
 </script>
 
