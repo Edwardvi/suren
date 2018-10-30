@@ -1,45 +1,64 @@
 <template>
-    <a class="userinfo" href="/pages/rendetail/main" >
-      <div class="Base-Chip-for-User">
+    <a class="userinfo" href="/pages/rendetail/main" >{{qq()}}
+      <div class="Base-Chip-for-User"  :key="index" v-for="(users, index) in list">
         <div class="Avatar"> 
         </div>
-        <div class="Nora-Bravo">{{userInfo}}<card :text="motto"></card>
+        <div class="Nora-Bravo">{{users.attributes.username}}<card :text="motto"></card>
         </div>
-        <div class="yijuhua">{{userInfoyijuhua}}
+        <div class="yijuhua">{{users.attributes.email}}
         </div>    
       </div>
     </a>
 </template>
 
 <script>
-import card from '@/components/card';
+import card from "@/components/card";
+var AV = require("leancloud-storage");
 export default {
   data() {
     return {
       motto: [],
-      userInfo: [],
-      userInfoyijuhua: []
+      users: [],
+      list: []
     };
   },
 
   components: {
-    card,
+    card
   },
-  props: ['text'],
-}; 
+  props: [],
+  methods: {
+    qq() {
+      var query = new AV.Query("_User");
+      var now = new Date();
+      query.lessThanOrEqualTo("createdAt", now);
+      query.limit(10);
+      query.find().then(
+        function(results) {
+          this.list = results;
+          console.log(this.list);
+        },
+        function(error) {}
+      );
+      console.log("qq is over ")
+    }
 
+  },
+  cerated() {}
+};
+console.log("list:", this.list);
 </script>
 
 <style>
 .userinfo {
-  display: flex;  
+  display: flex;
   margin: 4px;
 }
 
 .Base-Chip-for-User {
   display: flex;
-  flex-direction:column;
-  align-items:center;
+  flex-direction: column;
+  align-items: center;
   flex: 1 1 auto;
   background-color: #f08bc3;
   width: 164px;
@@ -91,6 +110,4 @@ export default {
   text-align: center;
   color: #8b8b8b;
 }
-
-
 </style>

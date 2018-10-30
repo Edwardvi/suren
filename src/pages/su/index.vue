@@ -1,15 +1,9 @@
 <template>
   <div class="container" @click="clickHandle('test click', $event)">
+    
    <smcard></smcard>
-   <smcard></smcard>
-   <smcard></smcard>
-   <smcard></smcard>
-   <smcard></smcard>
-   <smcard></smcard>
-   <smcard></smcard>
-   <smcard></smcard>
-   <smcard></smcard>
-   <smcard></smcard>
+
+   
 
   </div>
 </template>
@@ -22,7 +16,7 @@ var query = new AV.Query("_User");
 query.get("5b9a0eea1579a3003a4154d3").then(
   function(todo) {
     // 成功获得实例
-    console.log(todo);
+    // console.log(todo);
     // todo 就是 id 为 57328ca079bc44005c2472d0 的 Todo 对象实例
   },
   function(error) {
@@ -30,43 +24,51 @@ query.get("5b9a0eea1579a3003a4154d3").then(
   }
 );
 
-
-
-
 export default {
   components: {
     card,
     smcard
+  },
+  data() {
+    return {
+      list: [],
+    }
   },
 
   methods: {
     clickHandle(msg, ev) {
       console.log("clickHandle:", msg, ev);
     },
-    // qq() {
-    //   var query = new AV.Query("_User");
-    //   var now = new Date();
-    //   query.lessThanOrEqualTo("createdAt", now).then(
-    //     function(todo) {},
-    //     function(error) {
-    //       // 异常处理
-    //     }
-    //   ); //查询今天之前创建的 Todo
-    //   query.limit(10); // 最多返回 10 条结果
-    //   console.log(todo);
-    //   console.log("11122");
-    // }
+    qq () {
+      var query = new AV.Query("_User");
+      var now = new Date();
+      query.lessThanOrEqualTo("createdAt", now);
+      query.limit(10);
+      query.find().then(
+        function(results) {
+        this.list = results
+          console.log(this.list)
+        
+        },
+        function(error) {}
+      );
+    }
   },
   cerated() {
-//     async qq => {
-//   var query = new AV.Query("_User");
-//   var now = new Date();
-//   ss => query.lessThanOrEqualTo("createdAt", now);
-//   const zz = await  ss();
-//   return 
-//     console.log(zz);
-// };
-//     qq();
+    console.log("11122"); //此处为何打印不出来?求解
+
+
+      // query.select(["username", "email"]);
+      // query.first().then(
+      //   function(todo) {
+      //     console.log(todo.get("username")); // √ 此段代码为获取特定属性
+      //     console.log(todo.get("email")); // √
+      //     console.log(todo.get("location")); // undefined
+      //   },
+      //   function(error) {
+      //     // 异常处理
+      //   }
+      // );
   }
 };
 </script>
