@@ -3,9 +3,9 @@
       <div class="Base-Chip-for-User"  :key="index" v-for="(users, index) in list">
         <div class="Avatar"> 
         </div>
-        <div class="Nora-Bravo">{{users.attributes.username}}<card :text="motto"></card>
+        <div class="Nora-Bravo" >{{usersname}}<card :text="motto"></card>
         </div>
-        <div class="yijuhua">{{users.attributes.email}}
+        <div class="yijuhua">{{usersemail}}
         </div>    
       </div>
     </a>
@@ -26,7 +26,7 @@ export default {
   components: {
     card
   },
-  props: [],
+  props: ["usersemail","usersemail",],
   methods: {
     qq() {
       var query = new AV.Query("_User");
