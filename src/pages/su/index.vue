@@ -12,17 +12,17 @@
 import card from "@/components/card";
 import smcard from "@/components/smcard";
 var AV = require("leancloud-storage");
-var query = new AV.Query("_User");
-query.get("5b9a0eea1579a3003a4154d3").then(
-  function(todo) {
-    // 成功获得实例
-    // console.log(todo);
-    // todo 就是 id 为 57328ca079bc44005c2472d0 的 Todo 对象实例
-  },
-  function(error) {
-    // 异常处理
-  }
-);
+// var query = new AV.Query("_User");
+// query.get("5b9a0eea1579a3003a4154d3").then(
+//   function(todo) {
+//     // 成功获得实例
+//     console.log(todo);
+//     // todo 就是 id 为 57328ca079bc44005c2472d0 的 Todo 对象实例
+//   },
+//   function(error) {
+//     // 异常处理
+//   }
+// );
 
 export default {
   components: {
@@ -31,44 +31,28 @@ export default {
   },
   data() {
     return {
-      list: [],
-    }
+      list: []
+    };
   },
 
   methods: {
     clickHandle(msg, ev) {
       console.log("clickHandle:", msg, ev);
-    },
-    qq () {
-      var query = new AV.Query("_User");
-      var now = new Date();
-      query.lessThanOrEqualTo("createdAt", now);
-      query.limit(10);
-      query.find().then(
-        function(results) {
-        this.list = results
-          console.log(this.list)
-        
-        },
-        function(error) {}
-      );
     }
   },
-  cerated() {
-    console.log("11122"); //此处为何打印不出来?求解
-
-
-      // query.select(["username", "email"]);
-      // query.first().then(
-      //   function(todo) {
-      //     console.log(todo.get("username")); // √ 此段代码为获取特定属性
-      //     console.log(todo.get("email")); // √
-      //     console.log(todo.get("location")); // undefined
-      //   },
-      //   function(error) {
-      //     // 异常处理
-      //   }
-      // );
+  
+  created () {
+    // query.select(["username", "email"]);
+    // query.first().then(
+    //   function(todo) {
+    //     console.log(todo.get("username")); // √ 此段代码为获取特定属性
+    //     console.log(todo.get("email")); // √
+    //     console.log(todo.get("location")); // undefined
+    //   },
+    //   function(error) {
+    //     // 异常处理
+    //   }
+    // );
   }
 };
 </script>

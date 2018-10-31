@@ -1,5 +1,5 @@
 <template>
-    <a class="userinfo" href="/pages/rendetail/main" >{{qq()}}
+    <a class="userinfo" href="/pages/rendetail/main" >
       <div class="Base-Chip-for-User"  :key="index" v-for="(users, index) in list">
         <div class="Avatar"> 
         </div>
@@ -26,27 +26,31 @@ export default {
   components: {
     card
   },
-  props: ["usersemail","usersemail",],
+  props: ["usersemail", "usersemail"],
   methods: {
     qq() {
       var query = new AV.Query("_User");
       var now = new Date();
       query.lessThanOrEqualTo("createdAt", now);
-      query.limit(10);
-      query.find().then(
-        function(results) {
+      query.limit(5);
+      query
+        .find()
+        .then(results => {
           this.list = results;
           console.log(this.list);
-        },
-        function(error) {}
-      );
-      console.log("qq is over ")
+        })
+        .catch(function(error) {
+          // catch 方法写在 Promise 链式的最后，可以捕捉到全部 error
+          console.error(error);
+        });
     }
-
   },
-  cerated() {}
+  mounted() {
+    this.qq();
+    
+  }
 };
-console.log("list:", this.list);
+
 </script>
 
 <style>

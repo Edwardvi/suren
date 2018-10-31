@@ -12,19 +12,13 @@ export default {
     });
     console.log("LC ok!");
 
-    // var user = new AV.User() || [];
-    () => {AV.User.loginWithWeapp()
-      .then(user => {
-        this.globalData.user = user.toJSON();
-      })
-      .catch(console.error)}
+
+  
     // 调用API从本地缓存中获取数据
     const logs = wx.getStorageSync("logs") || [];
     logs.unshift(Date.now());
     wx.setStorageSync("logs", logs);
     console.log("app created and cache logs by setStorageSync");
-
-    
   }
 };
 </script>
