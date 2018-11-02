@@ -38,10 +38,24 @@ export default {
   methods: {
     clickHandle(msg, ev) {
       console.log("clickHandle:", msg, ev);
+    },
+    fetchTodos: function(user) {
+      console.log("uid", user.id);
+      const query = new AV.Query(Todo)
+        .equalTo("user", AV.Object.createWithoutData("User", user.id))
+        .descending("createdAt");
+      const setTodos = this.setTodos.bind(this);
+      return AV.Promise.all([query.find().then(setTodos), query.subscribe()])
+        .then(([todos, subscription]) => {
+          this.subscription = subscription;
+          if (this.unbind) this.unbind();
+          this.unbind = bind(subscription, todos, setTodos);
+        })
+        .catch(error => console.error(error.message));
     }
   },
-  
-  created () {
+
+  created() {
     // query.select(["username", "email"]);
     // query.first().then(
     //   function(todo) {

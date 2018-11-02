@@ -3,7 +3,7 @@
       <div class="Base-Chip-for-User"  :key="index" v-for="(users, index) in list">
         <div class="Avatar"> 
         </div>
-        <div class="Nora-Bravo" >{{usersname}}<card :text="motto"></card>
+        <div class="Nora-Bravo" >{{user.attributes.email}}<card :text="motto"></card>
         </div>
         <div class="yijuhua">{{usersemail}}
         </div>    
@@ -38,6 +38,7 @@ export default {
         .then(results => {
           this.list = results;
           console.log(this.list);
+          console.log(this.users);
         })
         .catch(function(error) {
           // catch 方法写在 Promise 链式的最后，可以捕捉到全部 error
