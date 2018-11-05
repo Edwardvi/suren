@@ -1,13 +1,14 @@
 <template>
     <a class="userinfo" href="/pages/rendetail/main" >
-      <div class="Base-Chip-for-User"  :key="index" v-for="(users, index) in list">
+      <ul class="Base-Chip-for-User"  :key="index" v-for="(u, index) in list">
         <div class="Avatar"> 
         </div>
-        <div class="Nora-Bravo" >{{user.attributes.email}}<card :text="motto"></card>
-        </div>
-        <div class="yijuhua">{{usersemail}}
+        <li class="Nora-Bravo" >{{u.username}}
+          <card :text="motto"></card>
+        </li>
+        <div class="yijuhua">{{u.email}}
         </div>    
-      </div>
+      </ul>
     </a>
 </template>
 
@@ -31,27 +32,30 @@ export default {
     qq() {
       var query = new AV.Query("_User");
       var now = new Date();
+      var i;
       query.lessThanOrEqualTo("createdAt", now);
       query.limit(5);
       query
         .find()
         .then(results => {
           this.list = results;
+          
           console.log(this.list);
-          console.log(this.users);
         })
         .catch(function(error) {
           // catch 方法写在 Promise 链式的最后，可以捕捉到全部 error
           console.error(error);
         });
+
+        
     }
   },
   mounted() {
     this.qq();
-    
+
+
   }
 };
-
 </script>
 
 <style>

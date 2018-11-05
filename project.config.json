@@ -10,7 +10,7 @@
 	},
 	"miniprogramRoot": "dist/",
 	"compileType": "miniprogram",
-	"appid": "touristappid",
+	"appid": "wxc51ac8992ad15772",
 	"projectname": "suren",
 	"condition": {
 		"search": {
