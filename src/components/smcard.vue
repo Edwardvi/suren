@@ -1,7 +1,7 @@
 <template>
-    <a class="userinfo" href="/pages/rendetail/main" >
-      <ul class="Base-Chip-for-User"  :key="index" v-for="(u, index) in list">
-        <div class="Avatar"> 
+    <a :href="detailUrl" class="userinfo"  >
+      <ul class="Base-Chip-for-User"  >
+        <div class="Avatar" > 
         </div>
         <li class="Nora-Bravo" >{{u.username}}
           <card :text="motto"></card>
@@ -16,45 +16,30 @@
 import card from "@/components/card";
 var AV = require("leancloud-storage");
 export default {
+  props: ['u'],
   data() {
     return {
       motto: [],
       users: [],
-      list: []
+      list: [],
+      uid: []
     };
   },
 
   components: {
     card
   },
-  props: ["usersemail", "usersemail"],
-  methods: {
-    qq() {
-      var query = new AV.Query("_User");
-      var now = new Date();
-      var i;
-      query.lessThanOrEqualTo("createdAt", now);
-      query.limit(5);
-      query
-        .find()
-        .then(results => {
-          this.list = results;
-          
-          console.log(this.list);
-        })
-        .catch(function(error) {
-          // catch 方法写在 Promise 链式的最后，可以捕捉到全部 error
-          console.error(error);
-        });
 
-        
+  methods: {
+
+  },
+  computed: {
+    detailUrl() {
+      return "/pages/rendetail/main?id=" + this.u.id;
+      console.log(this.u.id)
     }
   },
-  mounted() {
-    this.qq();
 
-
-  }
 };
 </script>
 

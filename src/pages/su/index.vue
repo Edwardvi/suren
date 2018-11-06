@@ -1,7 +1,7 @@
 <template>
   <div class="container" @click="clickHandle('test click', $event)">
     
-   <smcard></smcard>
+   <smcard :key="index" v-for="(u, index) in ulist" :u='u'></smcard>
 
    
 
@@ -31,13 +31,45 @@ export default {
   },
   data() {
     return {
-      list: []
+      ulist: []
     };
   },
 
   methods: {
+    qq() {
+      var query = new AV.Query("_User");
+      var now = new Date();
+      var i;
+      query.lessThanOrEqualTo("createdAt", now);
+      query.limit(5);
+      query
+        .find()
+        .then(results => {
+          this.ulist = results;
+
+          console.log(this.ulist);
+        })
+        .catch(function(error) {
+          // catch 方法写在 Promise 链式的最后，可以捕捉到全部 error
+          console.error(error);
+        });
+    },
     clickHandle(msg, ev) {
       console.log("clickHandle:", msg, ev);
+    },
+    gorendetail() {
+      // var query = new AV.Query("_User");
+      // query.get("5bd0393aac502e0061a52ec0").then(
+      //   function(todo) {
+      //     // 成功获得实例
+      //     // todo 就是 id 为 57328ca079bc44005c2472d0 的 Todo 对象实例
+      console.log("todo:", todo);
+      //   },
+      //   function(error) {
+      //     // 异常处理
+      //   }
+      // );
+      // href="/pages/rendetail/main"
     },
     fetchTodos: function(user) {
       console.log("uid", user.id);
@@ -54,7 +86,9 @@ export default {
         .catch(error => console.error(error.message));
     }
   },
-
+  mounted() {
+    this.qq();
+  },
   created() {
     // query.select(["username", "email"]);
     // query.first().then(

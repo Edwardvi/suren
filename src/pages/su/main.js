@@ -9,7 +9,7 @@ export default {
     config: {
     //   "backgroundTextStyle": "light",
     //   "navigationBarBackgroundColor": "#fff",
-      navigationBarTitleText: "义工列表",
+      'navigationBarTitleText': "义工列表",
     //   "navigationBarTextStyle": "black"
     }
 }
