@@ -1,8 +1,8 @@
 <template>
   <div class="container" @click="clickHandle('test click', $event)">
     
-   <smcard :key="index" v-for="(u, index) in ulist" :u='u'></smcard>
-
+   <smcard :key="index" v-for="(u, index) in ulist" :u='u' ></smcard>
+<!-- @click="getrendetail" -->
    
 
   </div>
@@ -31,7 +31,9 @@ export default {
   },
   data() {
     return {
-      ulist: []
+      ulist: [],
+      user: [],
+      username: ""
     };
   },
 
@@ -46,8 +48,15 @@ export default {
         .find()
         .then(results => {
           this.ulist = results;
+          this.username = results.username;
+          for (let u of this.ulist) {
+            // console.log(u.attributes.username);
+            const username = u.attributes.username
+            console.log('ooo',username);
 
+          }
           console.log(this.ulist);
+          // console.log(this.username);
         })
         .catch(function(error) {
           // catch 方法写在 Promise 链式的最后，可以捕捉到全部 error
@@ -57,18 +66,18 @@ export default {
     clickHandle(msg, ev) {
       console.log("clickHandle:", msg, ev);
     },
-    gorendetail() {
-      // var query = new AV.Query("_User");
-      // query.get("5bd0393aac502e0061a52ec0").then(
-      //   function(todo) {
-      //     // 成功获得实例
-      //     // todo 就是 id 为 57328ca079bc44005c2472d0 的 Todo 对象实例
-      console.log("todo:", todo);
-      //   },
-      //   function(error) {
-      //     // 异常处理
-      //   }
-      // );
+    gorendetail(username) {
+      var query = new AV.Query("_User");
+      query.equalTo("username", username);
+      query
+        .find()
+        .then(results => {
+          this.user = results;
+          console.log("user:", this.user);
+        })
+        .catch(function(error) {
+          console.error(error);
+        });
       // href="/pages/rendetail/main"
     },
     fetchTodos: function(user) {
@@ -88,6 +97,7 @@ export default {
   },
   mounted() {
     this.qq();
+    // this.gorendetail()
   },
   created() {
     // query.select(["username", "email"]);
