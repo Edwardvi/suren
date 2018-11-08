@@ -2,7 +2,7 @@
   <div class="container">
     <div class="Top">
       <div class="zuoxia">
-        <div class="name">嘿嘿</div>
+        <div class="name">{{username}}</div>
         <div class="dizhi">长安城，宋朝</div>
         <div class="sixin">
           <a class='center' href="">私信</a>
@@ -23,7 +23,7 @@
       <div class="weui-tab__content" :hidden="activeIndex != 0">
           <pic></pic>
       </div>
-      <div class="weui-tab__content"  :hidden="activeIndex != 1">
+      <div class="weui-tab__content"  :hidden="activeIndex != 1" >
         <div class="mid">
           <midcard ></midcard>
           <midcard></midcard>
@@ -50,7 +50,8 @@ export default {
     return{
       tabs: ["相册", "收藏的宿", "过往"],
       activeIndex: 0,
-      fontSize: 30
+      fontSize: 30,
+      username: '',
     }
   },
   computed: {
@@ -70,11 +71,15 @@ export default {
     tabClick(e) {
       console.log(e);
       this.activeIndex = e.currentTarget.id;
-    }
+    },
+    dianji(e) {
+       const current = e.currentTarget.dataset.current
+        this.username = current
+        this.current = current
   },
 
   
-}
+}}
 </script>
 <style scoped>
 .container {

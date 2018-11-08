@@ -1,7 +1,7 @@
 <template>
   <div class="container" @click="clickHandle('test click', $event)">
     
-   <smcard :key="index" v-for="(u, index) in ulist" :u='u' ></smcard>
+   <smcard :key="index" v-for="(u, index) in ulist" :u='u' :username="username"></smcard>
 <!-- @click="getrendetail" -->
    
 
@@ -48,15 +48,13 @@ export default {
         .find()
         .then(results => {
           this.ulist = results;
-          this.username = results.username;
+          
           for (let u of this.ulist) {
-            // console.log(u.attributes.username);
-            const username = u.attributes.username
-            console.log('ooo',username);
-
+            this.username = u.attributes.username
           }
-          console.log(this.ulist);
-          // console.log(this.username);
+          console.log('uname',this.username);
+          console.log('ulist',this.ulist);
+          
         })
         .catch(function(error) {
           // catch 方法写在 Promise 链式的最后，可以捕捉到全部 error

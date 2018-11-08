@@ -16,11 +16,11 @@
 import card from "@/components/card";
 var AV = require("leancloud-storage");
 export default {
-  props: ['u'],
+  props: ['u', "username"],
   data() {
     return {
       motto: [],
-      users: [],
+      username: [],
       list: [],
       uid: []
     };
@@ -35,11 +35,15 @@ export default {
   },
   computed: {
     detailUrl() {
-      return "/pages/rendetail/main?id=" + this.u.id;
-      console.log(this.u.id)
+
+
+      // return "/pages/rendetail/main?id=" + this.username;
+      console.log("111",this.username)
     }
   },
-
+  mounted() {
+    
+  },
 };
 </script>
 
