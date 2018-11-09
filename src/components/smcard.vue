@@ -1,12 +1,12 @@
 <template>
-    <a :href="detailUrl" class="userinfo"  >
+    <a :href="detailUrl" class="userinfo" :data-current="u" @click="ddd" >
       <ul class="Base-Chip-for-User"  >
         <div class="Avatar" > 
         </div>
-        <li class="Nora-Bravo" >{{u.username}}
+        <li class="Nora-Bravo" >{{u.attributes.username}}
           <card :text="motto"></card>
         </li>
-        <div class="yijuhua">{{u.email}}
+        <div class="yijuhua">{{u.attributes.email}}
         </div>    
       </ul>
     </a>
@@ -16,7 +16,7 @@
 import card from "@/components/card";
 var AV = require("leancloud-storage");
 export default {
-  props: ['u', "username"],
+  props: ["u", "currentname"],
   data() {
     return {
       motto: [],
@@ -31,19 +31,24 @@ export default {
   },
 
   methods: {
+    ddd(e) {
+      const currentUname = e.currentTarget.dataset.current.attributes.username;
+      
+      try {
+        wx.setStorageSync("Cname", currentUname);//把用户名存入本地。
 
+      } catch (e) {
+        console.log(e);
+      }
+    }
   },
   computed: {
     detailUrl() {
-
-
-      // return "/pages/rendetail/main?id=" + this.username;
-      console.log("111",this.username)
+      return "/pages/rendetail/main?id=" + this.u;
+      console.log("111", this.u);
     }
   },
-  mounted() {
-    
-  },
+  mounted() {}
 };
 </script>
 

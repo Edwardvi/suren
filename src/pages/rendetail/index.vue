@@ -38,32 +38,33 @@
 </template>
 
 <script>
-import pic from '@/components/pic';
-import midcard from '@/components/midcard';
+import pic from "@/components/pic";
+import midcard from "@/components/midcard";
 
 export default {
+  props: ["u"],
   components: {
     pic,
     midcard
   },
-  data(){
-    return{
+  data() {
+    return {
       tabs: ["相册", "收藏的宿", "过往"],
       activeIndex: 0,
       fontSize: 30,
-      username: '',
-    }
+      username: ""
+    };
   },
   computed: {
     navbarSliderClass() {
       if (this.activeIndex == 0) {
-        return 'weui-navbar__slider_0'
+        return "weui-navbar__slider_0";
       }
       if (this.activeIndex == 1) {
-        return 'weui-navbar__slider_1'
+        return "weui-navbar__slider_1";
       }
       if (this.activeIndex == 2) {
-        return 'weui-navbar__slider_2'
+        return "weui-navbar__slider_2";
       }
     }
   },
@@ -71,15 +72,24 @@ export default {
     tabClick(e) {
       console.log(e);
       this.activeIndex = e.currentTarget.id;
-    },
-    dianji(e) {
-       const current = e.currentTarget.dataset.current
-        this.username = current
-        this.current = current
+    }
   },
-
-  
-}}
+  onShow() {
+    try {
+      var value = wx.getStorageSync("Cname");//拿到存储的数据，使用同步的概念,奇怪的是必须用大写字母开头的命名
+      
+      
+      if (value) {
+        // this.isShow = false; // 判断订单也是否有数据，没有数据则用v-show引用一个组件去渲染页面
+        this.username = value;
+        console.log("cname", value);
+        //数据渲染页面
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+};
 </script>
 <style scoped>
 .container {
@@ -93,13 +103,17 @@ export default {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
-  width: 100%
+  width: 100%;
 }
 
 .Top {
   width: 100%;
   height: 320px;
-  background-image: linear-gradient(to bottom, rgba(87, 87, 87, 0), rgba(2, 2, 2, 0.93));
+  background-image: linear-gradient(
+    to bottom,
+    rgba(87, 87, 87, 0),
+    rgba(2, 2, 2, 0.93)
+  );
 }
 
 .zuoxia {
@@ -107,9 +121,7 @@ export default {
   margin-left: 6%;
 }
 
-
 .name {
-  
   width: 100%;
   height: 24px;
   font-family: Runda;
@@ -147,10 +159,9 @@ export default {
   color: #fff;
 }
 
-
 .bar {
   display: flex;
-  flex-flow:row wrap;
+  flex-flow: row wrap;
   justify-content: space-between;
   width: 100%;
   height: 48px;
@@ -167,8 +178,7 @@ export default {
 }
 
 .weui-navbar__title {
-  color: #a648eb
-  
+  color: #a648eb;
 }
 
 .text {
@@ -189,7 +199,7 @@ export default {
   width: 100%;
   display: flex;
   flex-flow: row wrap;
-  justify-content: center
+  justify-content: center;
 }
 
 .weui-navbar__slider_0 {
@@ -201,7 +211,7 @@ export default {
   transform: translateX(250rpx);
 }
 .weui-navbar__slider_2 {
-  left:29rpx;
+  left: 29rpx;
   transform: translateX(500rpx);
 }
 </style>
