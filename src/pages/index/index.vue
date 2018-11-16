@@ -1,17 +1,20 @@
 <template>
   <div class="container" @click="clickHandle('test click', $event)">
-    
-
     <div class="usermotto">
-      <div class="user-motto">
-        <card :text="motto"></card>
-        <card :text="user_name"></card>
-        <div class="yishuzi">
-          <a href="/pages/go/main" class="counter">宿</a>
-          <a href="/pages/su/main" class="counter">人</a>
+  
+        <div class="userinfo-avatar">
+        <open-data type="userAvatarUrl"></open-data>
         </div>
+        <div >Hello,<open-data type="userNickName"></open-data></div>
+
+       
         
-      </div>
+        <!-- <card :text="user_name"></card> -->
+      
+    </div>
+    <div class="yishuzi">
+      <a href="/pages/go/main" class="counter">宿</a>
+      <a href="/pages/su/main" class="counter">人</a>
     </div>
   </div>
 </template>
@@ -55,62 +58,55 @@ export default {
 
     getcurrentuser() {
       const user = AV.User.current();
-      this.user_name = user.attributes.username;
-      console.log('用户已加载：',this.user_name);
+      // this.user_name = user.attributes.username;
+      // console.log("用户已加载：", this.user_name);
     },
 
-    // getUserInfo() {
-    //   // 调用登录接口
-    //   wx.login({
-    //     success: () => {
-    //       wx.getUserInfo({
-    //         success: (res) => {
-    //           this.userInfo = res.userInfo;
-    //         },
-    //       });
-    //     },
-    //   });
-    // },
     clickHandle(msg, ev) {
       console.log("clickHandle:", msg, ev);
     }
   },
 
   created() {
-    this.sing();// 调用应用实例的方法获取全局数据
+    this.sing();
+  },
+  mounted() {
     this.getcurrentuser();
-    
-
   }
 };
 </script>
 
 <style scoped>
+
+
+
 .userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
+  overflow:hidden;  
+  display: block;  
+  width: 160rpx;  
+  height: 160rpx;  
+  margin: 20rpx;  
+  margin-top: 160rpx ;  
+  border-radius: 50%;  
+  border: 2px solid #fff;  
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);  
+} 
 
-.userinfo-nickname {
-  flex: auto;
-  color: #aaa;
-}
 
+
+.container {
+  padding:0 0;
+}
 .usermotto {
   display: block;
-  flex-direction: column;
-  justify-content: flex-start;
-  flex: auto;
+  justify-content: center;
 }
 
 .yishuzi {
+  width: 100%;
   display: flex;
-  flex-wrap: nowrap;
-  margin-top: 300px;
-  flex-direction: row;
-  justify-content: space-around;
+  margin-top: 200px;
+  justify-content: space-between;
 }
 
 .counter {
@@ -118,6 +114,7 @@ export default {
   padding: 5px 10px;
   color: black;
   border: 1px solid black;
+ 
 }
 
 .form-control {
