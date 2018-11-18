@@ -3,10 +3,10 @@
       <ul class="Base-Chip-for-User"  >
         <div class="Avatar" > 
         </div>
-        <li class="Nora-Bravo" >{{u.attributes.username}}
+        <li class="Nora-Bravo" >{{uuname}}
           <card :text="motto"></card>
         </li>
-        <div class="yijuhua">{{u.attributes.email}}
+        <div class="yijuhua">{{uuemail}}
         </div>    
       </ul>
     </a>
@@ -16,12 +16,12 @@
 import card from "@/components/card";
 var AV = require("leancloud-storage");
 export default {
-  props: ["u", "currentname"],
+  props: ["u", ""],
   data() {
     return {
       motto: [],
-      username: [],
-      list: [],
+      uuname: [],
+      uuemail: [],
       uid: []
     };
   },
@@ -33,10 +33,8 @@ export default {
   methods: {
     ddd(e) {
       const currentUname = e.currentTarget.dataset.current.attributes.username;
-      
       try {
         wx.setStorageSync("Cname", currentUname);//把用户名存入本地。
-
       } catch (e) {
         console.log(e);
       }
@@ -48,7 +46,10 @@ export default {
       console.log("111", this.u);
     }
   },
-  mounted() {}
+  mounted() {
+    this.uuname = this.u.attributes.username;
+    this.uuemail = this.u.attributes.email;  
+  }
 };
 </script>
 

@@ -10,6 +10,7 @@
     "pages/go/main",
     "pages/login/main"
 
+
   ],
   "window": {
     "backgroundTextStyle": "light",
