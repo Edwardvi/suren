@@ -13,13 +13,13 @@
       
     </div>
     <div class="yishuzi" >
-      <button v-if="!userInfo" open-type="getUserInfo" lang="zh_CN" @getuserinfo='onGotUserInfo' >
+      <button v-if="!hasuser" open-type="getUserInfo" lang="zh_CN" @getuserinfo='onGotUserInfo' >
       宿</button>
-      <button v-if="!userInfo" open-type="getUserInfo" lang="zh_CN" @getuserinfo='onGotUserInfo' >
+      <button v-if="!hasuser" open-type="getUserInfo" lang="zh_CN" @getuserinfo='onGotUserInfo' >
       人</button>
-      <a v-if="userInfo" href="/pages/go/main" class="counter">
+      <a v-if="hasuser" href="/pages/go/main" class="counter">
       宿</a>
-      <a v-if="userInfo" href="/pages/su/main" class="counter">
+      <a v-if="hasuser" href="/pages/su/main" class="counter">
       人</a>
       
     </div>
@@ -36,7 +36,7 @@ export default {
       motto: "hello",
       userInfo: false,
       errMsg: {},
-      
+      hasuser: false,
       user_name: [],
       user: ""
     };
@@ -47,25 +47,10 @@ export default {
   },
   computed: {},
 
-  
   beforeCreate() {
     // 查看是否授权
-    let that = this;
-    wx.getSetting({
-      success (res){
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-          wx.getUserInfo({
-            success: function(res) {
-              that.userInfo = res.userInfo;
-              console.log(33,res.userInfo)
-            }
-          })
-        }
-      }
-    })
   },
-  
+
   methods: {
     bindViewTap() {
       const url = "../logs/main";
@@ -92,8 +77,8 @@ export default {
     onGotUserInfo(e) {
       console.log(5);
       console.log(e);
-      this.userInfo = e.detail.userInfo;
-      if (!this.userInfo) {
+      this.hasuser = true;
+      if (!this.hasuser) {
         this.openSetting();
       }
     },
@@ -141,6 +126,22 @@ export default {
     }
   },
   mounted() {
+    let that = this;
+    wx.getSetting({
+      success(res) {
+        if (res.authSetting["scope.userInfo"]) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+          wx.getUserInfo({
+            success: function(res) {
+              that.userInfo = res.userInfo;
+              that.hasuser === 1;
+              console.log(33, res.userInfo);
+              console.log(that.hasuser);
+            }
+          });
+        }
+      }
+    });
     // wx.login({
     //   success: res => {
     //     var code = res.code;
