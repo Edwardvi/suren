@@ -5,11 +5,11 @@
       <div class="page__desc">旅行，从这一步开始</div>
     </div>
     <div class="page__bd">
-      <div class="weui-cells__title">必填</div>
+      <div class="weui-cells__title">带*为必填</div>
       <div class="weui-cells weui-cells_after-title">
         <div class="weui-cell weui-cell_input">
           <div class="weui-cell__hd">
-            <div class="weui-label" >昵称</div>
+            <div class="weui-label" >昵称*</div>
           </div>
           <div class="weui-cell__bd">
             <input class="weui-input" v-model="Username" :placeholder="userInfo.nickName" />
@@ -17,10 +17,10 @@
         </div>
         <div class="weui-cell weui-cell_input weui-cell_vcode">
           <div class="weui-cell__hd">
-            <div class="weui-label">手机</div>
+            <div class="weui-label">手机*</div>
           </div>
             <div class="weui-cell__bd">
-              <input class="weui-input" v-model="mobilePhoneNumber" placeholder="请输入手机号" />
+              <input class="weui-input" v-model="mobilePhoneNumber"  />
             </div>
             <!-- <div class="weui-cell__ft">
                 <div class="weui-vcode-btn">获取验证码</div>
@@ -28,11 +28,31 @@
         </div>
         <div class="weui-cell weui-cell_input">
           <div class="weui-cell__hd">
-            <div class="weui-label">生日</div>
+            <div class="weui-label">生日*</div>
           </div>
           <div class="weui-cell__bd">
-            <picker mode="date" value="date" start="2015-09-01" end="2017-09-01" @change="bindDateChange">
+            <picker mode="date" value="date" start="1900-09-01" end="2046-09-01" @change="bindDateChange">
               <div class="weui-input">{{date}}</div>
+            </picker>
+          </div>
+        </div>
+        <div class="weui-cell weui-cell_select">
+          <div class="weui-cell__hd weui-cell__hd_in-select-after">
+            <div class="weui-label">想去</div>
+          </div>
+          <div class="weui-cell__bd">
+            <picker class="weui-btn" mode="region" :value="region" @change="CityChange">
+              <div class="weui-select weui-select_in-select-after" type="default">{{city}}</div>
+            </picker>
+          </div>
+        </div>
+        <div class="weui-cell weui-cell_input">
+          <div class="weui-cell__hd">
+            <div class="weui-label">旅行时间</div>
+          </div>
+          <div class="weui-cell__bd">
+            <picker mode="date" value="playtime" start="1900-09-01" end="2046-09-01" @change="bindplaytimeChange">
+              <div class="weui-input" placeholder="">{{playtime}}</div>
             </picker>
           </div>
         </div>
@@ -57,18 +77,9 @@
                             <image class="weui-vcode-img" src="/static/images/vcode.jpg" style="width: 108px" />
                         </div>
                     </div> -->
-        <div class="weui-cell weui-cell_select">
-          <div class="weui-cell__hd weui-cell__hd_in-select-after">
-            <div class="weui-label">国家/地区</div>
-          </div>
-          <div class="weui-cell__bd">
-            <picker class="weui-btn" mode="region" :value="region" @change="CityChange">
-              <div class="weui-select weui-select_in-select-after" type="default">{{this.city}}</div>
-            </picker>
-          </div>
-        </div>
+
       </div>
-      <div class="weui-cells__title">一句话介绍</div>
+      <div class="weui-cells__title">一句话介绍*</div>
       <div class="weui-cells weui-cells_after-title">
         <div class="weui-cell">
         <div class="weui-cell__bd">
@@ -77,7 +88,7 @@
         </div>
         </div>
       </div> 
-      <button  open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo" href="" @click="login" class="weui-btn" type="primary">NEXT</button>
+      <button   href="" @click="login" class="weui-btn" type="primary">NEXT</button>
       <checkbox-group @click="bindAgreeChange">
         <label class="weui-agree" for="weuiAgree">
           <div class="weui-agree__text">
@@ -102,17 +113,19 @@ export default {
   data() {
     return {
       time: "09:01",
-      date: "2015-09-01",
+      date: "",
+      playtime: "",
       userInfo: {},
       region: ["广东省", "广州市", "海珠区"],
       city: [],
-      isAgree: false,
+      isAgree: true,
       toggle: true,
       Password: "",
       Username: "",
       Email: "",
       mobilePhoneNumber: "",
-      oneword: ""
+      oneword: "",
+      born: ""
     };
   },
   methods: {
@@ -121,8 +134,12 @@ export default {
       // user.setPassword(this.Password);
       user.setUsername(this.Username);
       user.set("wantgo", this.city);
+      user.set("wantgoprovince", this.city[0]);
+      user.set("wantgocity", this.city[1]);
+      user.set("wantgoregion", this.city[2]);
       user.set("oneword", this.oneword);
-      user.set("born", this.date);
+      user.set("born", this.born);
+      user.set("play", this.play);
       user.setMobilePhoneNumber(this.mobilePhoneNumber);
       // user.setEmail(this.Email);
       user
@@ -157,7 +174,13 @@ export default {
     },
     bindDateChange(e) {
       this.date = e.mp.detail.value;
-      console.log(e.mp.detail.value);
+      this.born = new Date(this.date);
+      console.log(this.date);
+      console.log(this.born);
+    },
+    bindplaytimeChange(e) {
+      this.playtime = e.mp.detail.value;
+      this.play = new Date(this.playtime);
     },
     bindTimeChange(e) {
       this.time = e.mp.detail.value;
@@ -170,19 +193,20 @@ export default {
     bindAgreeChange(e) {
       this.isAgree = !this.isAgree;
     },
+    onGotUserInfo(e) {
+      // console.log(e.detail.errMsg);
+      // console.log(e.detail.userInfo);
+      // console.log(e.detail.rawData);
+    },
     tog(e) {
       this.toggle = !this.toggle;
       console.log(this.toggle);
-    },
-    onGotUserInfo: e => {
-      console.log(e.detail.errMsg);
-      console.log(e.detail.userInfo);
-      console.log(e.detail.rawData);
     }
   },
   created() {
     // this.getUserInfo();
-  }
+  },
+  computed: {}
 };
 </script>
 
