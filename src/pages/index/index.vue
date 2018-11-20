@@ -78,33 +78,33 @@ export default {
       console.log(5);
       console.log(e);
       this.hasuser = true;
-      if (!this.hasuser) {
-        this.openSetting();
-      }
+      // if (!this.hasuser) {
+      //   this.openSetting();
+      // }
     },
 
     clickHandle(msg, ev) {
       console.log("clickHandle:", msg, ev);
     },
-    openSetting: function() {
-      var that = this;
-      if (wx.openSetting) {
-        wx.openSetting({
-          success: function(res) {
-            console.log(9);
-            //尝试再次登录
-            that.login();
-          }
-        });
-      } else {
-        console.log(10);
-        wx.showModal({
-          title: "授权提示",
-          content:
-            "小程序需要您的微信授权才能使用哦~ 错过授权页面的处理方法：删除小程序->重新搜索进入->点击授权按钮"
-        });
-      }
-    }
+    // openSetting: function() {
+    //   var that = this;
+    //   if (wx.openSetting) {
+    //     wx.openSetting({
+    //       success: function(res) {
+    //         console.log(9);
+    //         //尝试再次登录
+    //         that.login();
+    //       }
+    //     });
+    //   } else {
+    //     console.log(10);
+    //     wx.showModal({
+    //       title: "授权提示",
+    //       content:
+    //         "小程序需要您的微信授权才能使用哦~ 错过授权页面的处理方法：删除小程序->重新搜索进入->点击授权按钮"
+    //     });
+    //   }
+    // }
   },
 
   created() {
@@ -134,9 +134,9 @@ export default {
           wx.getUserInfo({
             success: function(res) {
               that.userInfo = res.userInfo;
-              that.hasuser === 1;
-              console.log(33, res.userInfo);
-              console.log(that.hasuser);
+              that.hasuser = 1;
+              console.log("hasuser", res.userInfo);
+              console.log("hasuser.value",that.hasuser);
             }
           });
         }
