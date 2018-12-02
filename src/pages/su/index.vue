@@ -1,10 +1,7 @@
 <template>
   <div class="container" @click="clickHandle('test click', $event)">
-    
    <smcard :key="index" v-for="(u, index) in ulist" :u='u' ></smcard>
 <!-- @click="getrendetail" -->
-   
-
   </div>
 </template>
 
