@@ -6,7 +6,8 @@
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,
-		"nodeModules": false
+		"nodeModules": false,
+		"autoAudits": false
 	},
 	"miniprogramRoot": "dist/",
 	"compileType": "miniprogram",
