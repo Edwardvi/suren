@@ -135,8 +135,8 @@ export default {
             success: function(res) {
               that.userInfo = res.userInfo;
               that.hasuser = 1;
-              console.log("hasuser", res.userInfo);
-              console.log("hasuser.value",that.hasuser);
+              console.log("userInfo", res.userInfo);
+              console.log("userInfo.nickName", that.userInfo.nickName);
             }
           });
         }

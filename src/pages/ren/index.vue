@@ -1,62 +1,88 @@
 <template>
   <div class="page">
-    <div class="page__hd" v-if="true">
+    <div class="page__hd" v-if="step1">
       <div class="page__title">STEP 1/2</div>
       <div class="page__desc">旅行，从这一步开始</div>
+    </div>
+    <div class="page__hd" v-if="!step1">
+      <div class="page__title">STEP 2/2</div>
+      <div class="page__desc">马上开始！</div>
     </div>
     <div class="page__bd">
       <div class="weui-cells__title">带*为必填</div>
       <div class="weui-cells weui-cells_after-title">
-        <div class="weui-cell weui-cell_input">
+        <div class="weui-cell weui-cell_input" v-if="step1">
           <div class="weui-cell__hd">
-            <div class="weui-label" >昵称*</div>
+            <div class="weui-label">昵称*</div>
           </div>
           <div class="weui-cell__bd">
-            <input class="weui-input" v-model="Username" :placeholder="userInfo.nickName" />
+            <input class="weui-input" v-model="Username" :placeholder="Username">
           </div>
         </div>
-        <div class="weui-cell weui-cell_input weui-cell_vcode">
+        <div class="weui-cell weui-cell_input weui-cell_vcode" v-if="step1">
           <div class="weui-cell__hd">
             <div class="weui-label">手机*</div>
           </div>
-            <div class="weui-cell__bd">
-              <input class="weui-input" v-model="mobilePhoneNumber"  />
-            </div>
-            <!-- <div class="weui-cell__ft">
+          <div class="weui-cell__bd">
+            <input class="weui-input" v-model="mobilePhoneNumber">
+          </div>
+          <!-- <div class="weui-cell__ft">
                 <div class="weui-vcode-btn">获取验证码</div>
-            </div> -->
+          </div>-->
         </div>
-        <div class="weui-cell weui-cell_input">
+        <div class="weui-cell weui-cell_input" v-if="step1">
           <div class="weui-cell__hd">
             <div class="weui-label">生日*</div>
           </div>
           <div class="weui-cell__bd">
-            <picker mode="date" value="date" start="1900-09-01" end="2046-09-01" @change="bindDateChange">
-              <div class="weui-input">{{date}}</div>
+            <picker
+              mode="date"
+              value="born"
+              start="1900-09-01"
+              end="2046-09-01"
+              @change="bindDateChange"
+            >
+              <div class="weui-input">{{bornraw}}</div>
             </picker>
           </div>
         </div>
-        <div class="weui-cell weui-cell_select">
+        <div class="weui-cell weui-cell_select" v-if="step1">
           <div class="weui-cell__hd weui-cell__hd_in-select-after">
-            <div class="weui-label">想去</div>
+            <div class="weui-label">故乡</div>
           </div>
           <div class="weui-cell__bd">
-            <picker class="weui-btn" mode="region" :value="region" @change="CityChange">
+            <picker class="weui-btn" mode="region" value="home" @change="HomeChange">
+              <div class="weui-select weui-select_in-select-after" type="default">{{home}}</div>
+            </picker>
+          </div>
+        </div>
+        <div class="weui-cell weui-cell_select" v-if="!step1">
+          <div class="weui-cell__hd weui-cell__hd_in-select-after">
+            <div class="weui-label">想去/招募地点</div>
+          </div>
+          <div class="weui-cell__bd">
+            <picker class="weui-btn" mode="region" value="city" @change="CityChange">
               <div class="weui-select weui-select_in-select-after" type="default">{{city}}</div>
             </picker>
           </div>
         </div>
-        <div class="weui-cell weui-cell_input">
+        <div class="weui-cell weui-cell_input" v-if="!step1">
           <div class="weui-cell__hd">
-            <div class="weui-label">旅行时间</div>
+            <div class="weui-label">打工/招募时间</div>
           </div>
           <div class="weui-cell__bd">
-            <picker mode="date" value="playtime" start="1900-09-01" end="2046-09-01" @change="bindplaytimeChange">
-              <div class="weui-input" placeholder="">{{playtime}}</div>
+            <picker
+              mode="date"
+              value="playtime"
+              start="1900-09-01"
+              end="2046-09-01"
+              @change="bindplaytimeChange"
+            >
+              <div class="weui-input" placeholder>{{playtime}}</div>
             </picker>
           </div>
         </div>
-                <!-- <div class="weui-cell weui-cell_input">
+        <!-- <div class="weui-cell weui-cell_input">
                         <div class="weui-cell__hd">
                             <div class="weui-label">时间</div>
                         </div>
@@ -65,8 +91,8 @@
                                 <div class="weui-input">{{time}}</div>
                             </picker>
                         </div>
-                    </div> -->
-                <!-- <div class="weui-cell weui-cell_input weui-cell_vcode">
+        </div>-->
+        <!-- <div class="weui-cell weui-cell_input weui-cell_vcode">
                         <div class="weui-cell__hd">
                             <div class="weui-label">验证码</div>
                         </div>
@@ -76,28 +102,32 @@
                         <div class="weui-cell__ft">
                             <image class="weui-vcode-img" src="/static/images/vcode.jpg" style="width: 108px" />
                         </div>
-                    </div> -->
-
+        </div>-->
       </div>
-      <div class="weui-cells__title">一句话介绍*</div>
-      <div class="weui-cells weui-cells_after-title">
+      <div class="weui-cells__title" v-if="step1">一句话介绍*</div>
+      <div class="weui-cells weui-cells_after-title" v-if="step1">
         <div class="weui-cell">
-        <div class="weui-cell__bd">
-          <textarea class="" v-model='oneword' placeholder="向这个世界表达你的心情与观点" style="height: 3.3em" />
+          <div class="weui-cell__bd">
+            <textarea class v-model="oneword" placeholder="向这个世界表达你的心情与观点" style="height: 3.3em"/>
             <!-- <div class="weui-textarea-counter">0/200</div> -->
+          </div>
         </div>
-        </div>
-      </div> 
-      <button   href="" @click="login" class="weui-btn" type="primary">NEXT</button>
+      </div>
+      <button href @click="login" class="weui-btn" type="primary">NEXT</button>
       <checkbox-group @click="bindAgreeChange">
         <label class="weui-agree" for="weuiAgree">
           <div class="weui-agree__text">
-          <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="isAgree" />
-          <div class="weui-agree__checkbox-icon">
-            <icon class="weui-agree__checkbox-icon-check" type="success_no_circle" size="9" v-if="isAgree"></icon>
-          </div>
-          阅读并同意
-          <navigator url="" class="weui-agree__link">《相关条款》</navigator>
+            <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="isAgree"/>
+            <!-- <div class="weui-agree__checkbox-icon">
+              <icon
+                class="weui-agree__checkbox-icon-check"
+                type="success_no_circle"
+                size="9"
+                v-if="isAgree"
+              ></icon>
+            </div>-->
+            点击下一步即代表您同意我们的
+            <navigator url class="weui-agree__link">《服务条款》</navigator>
           </div>
         </label>
       </checkbox-group>
@@ -112,12 +142,13 @@ var AV = require("leancloud-storage");
 export default {
   data() {
     return {
-      time: "09:01",
+      step1: true,
       date: "",
       playtime: "",
       userInfo: {},
       region: ["广东省", "广州市", "海珠区"],
-      city: [],
+      home: [],
+      city: ["西藏自治区", "林芝地区", "墨脱县"],
       isAgree: true,
       toggle: true,
       Password: "",
@@ -125,18 +156,34 @@ export default {
       Email: "",
       mobilePhoneNumber: "",
       oneword: "",
+      bornraw: "",
       born: ""
     };
   },
   methods: {
     login() {
+      // try {
+      //   let value = wx.getStorageSync("Cname"); //拿到存储的数据，使用同步的概念,奇怪的是必须用大写字母开头的命名
+      //   if (value) {
+      //     // this.isShow = false; // 判断订单也是否有数据，没有数据则用v-show引用一个组件去渲染页面
+      //     this.username = value;
+      //     console.log("cname", value);
+      //     //数据渲染页面
+      //   }
+      // } catch (e) {
+      //   console.log(e);
+      // }
       const user = AV.User.current();
       // user.setPassword(this.Password);
       user.setUsername(this.Username);
+      user.set("live", this.home);
+      // user.set("liveprovince", this.home[0]);
+      // user.set("livecity", this.home[1]);
+      // user.set("liveregion", this.home[2]);
       user.set("wantgo", this.city);
-      user.set("wantgoprovince", this.city[0]);
-      user.set("wantgocity", this.city[1]);
-      user.set("wantgoregion", this.city[2]);
+      // user.set("wantgoprovince", this.city[0]);
+      // user.set("wantgocity", this.city[1]);
+      // user.set("wantgoregion", this.city[2]);
       user.set("oneword", this.oneword);
       user.set("born", this.born);
       user.set("play", this.play);
@@ -149,6 +196,7 @@ export default {
           this.globalData.user = user.toJSON();
         })
         .catch(console.error);
+      this.step1 = !this.step1;
     },
 
     bindViewTap() {
@@ -173,9 +221,9 @@ export default {
       console.log("clickHandle:", msg, ev);
     },
     bindDateChange(e) {
-      this.date = e.mp.detail.value;
-      this.born = new Date(this.date);
-      console.log(this.date);
+      this.bornraw = e.mp.detail.value;
+      this.born = new Date(e.mp.detail.value);
+      console.log(e.mp.detail.value);
       console.log(this.born);
     },
     bindplaytimeChange(e) {
@@ -188,6 +236,10 @@ export default {
     },
     CityChange(e) {
       this.city = e.mp.detail.value;
+      console.log("you wantgo：" + e.mp.detail.value);
+    },
+    HomeChange(e) {
+      this.home = e.mp.detail.value;
       console.log("you live：" + e.mp.detail.value);
     },
     bindAgreeChange(e) {
@@ -204,6 +256,10 @@ export default {
     }
   },
   created() {
+    const user = AV.User.current();
+    this.Username = user.attributes.username;
+    console.log(this.Username);
+
     // this.getUserInfo();
   },
   computed: {}
