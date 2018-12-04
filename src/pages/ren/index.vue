@@ -194,8 +194,22 @@ export default {
         .then(user => {
           // 成功，此时可在控制台中看到更新后的用户信息
           this.globalData.user = user.toJSON();
+          console.log(user);
         })
-        .catch(console.error);
+        .catch(error => {
+          wx.showModal({
+            content:
+              "请检查您输入内容格式是否正确",
+            showCancel: false,
+            success: res => {
+              if (res.confirm) {
+                this.step1 = !this.step1;
+                console.log("用户点击确定");
+              }
+            }
+          });
+          console.log(1, error);
+        });
       this.step1 = !this.step1;
     },
 
