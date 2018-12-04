@@ -8,6 +8,9 @@ App.mpType = 'app';
 
 const app = new Vue(App);
 app.$mount();
+Vue.prototype.globalData = getApp().globalData //把vue原型下的globalData等于小程序原生的getApp().globalData。
+
+//将小程序的全局变量，挂载在Vue的原型上，这样我们在不同的页面就都可以获取到全局数据了 不同页面使用 this.globalData获取或者添加修改既可
 
 export default {
   // 这个字段走 app.json
