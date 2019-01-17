@@ -1,5 +1,5 @@
 <template>
-    <a :href="detailUrl" class="userinfo" :data-current="u" @click="ddd" >
+    <a :href="detailUrl" class="userinfo" :data-current="this.u" @click="ddd" >
       <ul class="Base-Chip-for-User"  >
         <div class="Avatar" > 
         </div>
@@ -32,7 +32,13 @@ export default {
 
   methods: {
     ddd(e) {
-      const currentUname = e.currentTarget.dataset.current.attributes.username;
+      let current = e.currentTarget.dataset.current;
+      console.log("333", e.currentTarget.dataset.current);
+
+      console.log(this.u);
+      
+    
+      const currentUname = this.u.attributes.username; //mac下用这行可以获得username，同时在html里把u变为this.u
       try {
         wx.setStorageSync("Cname", currentUname);//把用户名存入本地。
       } catch (e) {

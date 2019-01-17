@@ -77,7 +77,7 @@ export default {
   onShow() {
     try {
       var value = wx.getStorageSync("Cname");//拿到存储的数据，使用同步的概念,奇怪的是必须用大写字母开头的命名
-      
+      console.log("Cname", value );
       
       if (value) {
         // this.isShow = false; // 判断订单也是否有数据，没有数据则用v-show引用一个组件去渲染页面
@@ -87,6 +87,8 @@ export default {
       }
     } catch (e) {
       console.log(e);
+      console.log(11121344);
+
     }
   }
 };
