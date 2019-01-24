@@ -1,17 +1,17 @@
 <template>
   <div class="page">
-    <div class="page__hd" v-if="step1">
+    <div class="page__hd" v-if="step1==0">
       <div class="page__title">STEP 1/2</div>
       <div class="page__desc">旅行，从这一步开始</div>
     </div>
-    <div class="page__hd" v-if="!step1">
+    <div class="page__hd" v-if="step1 == 1">
       <div class="page__title">STEP 2/2</div>
       <div class="page__desc">马上开始！</div>
     </div>
     <div class="page__bd">
       <div class="weui-cells__title">带*为必填</div>
       <div class="weui-cells weui-cells_after-title">
-        <div class="weui-cell weui-cell_input" v-if="step1">
+        <div class="weui-cell weui-cell_input" v-if="step1==0">
           <div class="weui-cell__hd">
             <div class="weui-label">昵称*</div>
           </div>
@@ -19,7 +19,7 @@
             <input class="weui-input" v-model="Username" :placeholder="Username">
           </div>
         </div>
-        <div class="weui-cell weui-cell_input weui-cell_vcode" v-if="step1">
+        <div class="weui-cell weui-cell_input weui-cell_vcode" v-if="step1==0">
           <div class="weui-cell__hd">
             <div class="weui-label">手机*</div>
           </div>
@@ -30,7 +30,7 @@
                 <div class="weui-vcode-btn">获取验证码</div>
           </div>-->
         </div>
-        <div class="weui-cell weui-cell_input" v-if="step1">
+        <div class="weui-cell weui-cell_input" v-if="step1==0">
           <div class="weui-cell__hd">
             <div class="weui-label">生日*</div>
           </div>
@@ -46,7 +46,7 @@
             </picker>
           </div>
         </div>
-        <div class="weui-cell weui-cell_select" v-if="step1">
+        <div class="weui-cell weui-cell_select" v-if="step1 == 0">
           <div class="weui-cell__hd weui-cell__hd_in-select-after">
             <div class="weui-label">故乡</div>
           </div>
@@ -56,7 +56,7 @@
             </picker>
           </div>
         </div>
-        <div class="weui-cell weui-cell_select" v-if="!step1">
+        <div class="weui-cell weui-cell_select" v-if="step1 == 1">
           <div class="weui-cell__hd weui-cell__hd_in-select-after">
             <div class="weui-label">想去/招募地点</div>
           </div>
@@ -66,7 +66,7 @@
             </picker>
           </div>
         </div>
-        <div class="weui-cell weui-cell_input" v-if="!step1">
+        <div class="weui-cell weui-cell_input" v-if="step1 == 1">
           <div class="weui-cell__hd">
             <div class="weui-label">打工/招募时间</div>
           </div>
@@ -104,8 +104,8 @@
                         </div>
         </div>-->
       </div>
-      <div class="weui-cells__title" v-if="step1">一句话介绍*</div>
-      <div class="weui-cells weui-cells_after-title" v-if="step1">
+      <div class="weui-cells__title" v-if="step1==0">一句话介绍*</div>
+      <div class="weui-cells weui-cells_after-title" v-if="step1==0">
         <div class="weui-cell">
           <div class="weui-cell__bd">
             <textarea class v-model="oneword" placeholder="向这个世界表达你的心情与观点" style="height: 3.3em"/>
@@ -142,19 +142,19 @@ var AV = require("leancloud-storage");
 export default {
   data() {
     return {
-      step1: true,
+      step1: 0,
       date: "",
       playtime: "",
       userInfo: {},
       region: ["广东省", "广州市", "海珠区"],
-      home: [],
+      home: ["西藏自治区", "林芝地区", "墨脱县"],
       city: ["西藏自治区", "林芝地区", "墨脱县"],
       isAgree: true,
       toggle: true,
       Password: "",
       Username: "",
       Email: "",
-      mobilePhoneNumber: "",
+      mobilePhoneNumber: "15538297592",
       oneword: "",
       bornraw: "",
       born: ""
@@ -198,19 +198,26 @@ export default {
         })
         .catch(error => {
           wx.showModal({
-            content:
-              "请检查您输入内容格式是否正确",
+            content: "请检查您输入内容格式是否正确",
             showCancel: false,
             success: res => {
               if (res.confirm) {
-                this.step1 = !this.step1;
+                this.step1 = this.step1 - 1;
                 console.log("用户点击确定");
               }
             }
           });
           console.log(1, error);
         });
-      this.step1 = !this.step1;
+      this.step1 = this.step1 + 1;
+      if (this.step1 == 2) {
+        wx.showToast({
+          title: "成功",
+          icon: "success",
+          duration: 2000
+        });
+        wx.navigateTo({url: '../rendetail/main'});
+      }
     },
 
     bindViewTap() {

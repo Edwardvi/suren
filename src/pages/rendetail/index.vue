@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="Top">
+    <div class="Top" >
       <div class="zuoxia">
         <div class="name">{{username}}</div>
         <div class="dizhi">长安城，宋朝</div>
@@ -8,7 +8,7 @@
           <a class='center' href="">私信</a>
         </div>
       </div>
-
+    zheshi ge piaoliang de img <img src="" alt="">
     </div>
     <div class="bar">
       <block v-for="(item,index) in tabs" :key="index">

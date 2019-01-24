@@ -3,7 +3,7 @@
     
    <smcard :key="index" v-for="(u, index) in ulist" :u='u' ></smcard>
 <!-- @click="getrendetail" -->
-   
+   <a id="login" href="../ren/main">我也要出现在上面</a>
 
   </div>
 </template>
@@ -119,7 +119,9 @@ export default {
   padding: 20px 0;
   display: flex;
 }
-
+#login {
+  color: aliceblue;
+}
 .userinfo-nickname {
   color: #aaa;
 }
@@ -141,4 +143,6 @@ export default {
   color: blue;
   border: 1px solid blue;
 }
+
+
 </style>
