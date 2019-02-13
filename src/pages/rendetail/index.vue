@@ -29,7 +29,7 @@
         <pic></pic>
 
         <button style="margin:30rpx;" @click="upimagetouser">upload图片</button>
-        <img :src="tempFilePaths" mode="aspecFill" style="width: 100%; height: 450rpx">
+        <img :src="avatar" mode="aspecFill" style="width: 100%; height: 450rpx">
       </div>
       <div class="weui-tab__content" :hidden="activeIndex != 1">
         <div class="mid">
@@ -71,7 +71,7 @@ export default {
       oneword: "",
       wantgo: "",
       playtime: "",
-      tempFilePaths: ""
+      avatar: ""
     };
   },
   computed: {
@@ -94,17 +94,16 @@ export default {
     },
 
     upimagetouser() {
+      let that = this;
       wx.chooseImage({
         count: 1, // 默认9
         sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
         success(res) {
           // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-          const tempFilePaths = res.tempFilePaths;
-          wx.setStorageSync("TempFilePaths", tempFilePaths);
+          that.avatar = res.tempFilePaths;
           let tempFilePath = res.tempFilePaths[0];
-          let C_fname = wx.getStorageSync("Cname");
-          const avatarfile = new AV.File(C_fname, {
+          const avatarfile = new AV.File(that.username, {
             blob: {
               uri: tempFilePath
             } //Blob 对象表示一个不可变、原始数据的类文件对象？这里不懂
@@ -115,6 +114,7 @@ export default {
             .then(file => {
               const user = AV.User.current();
               user.set("avatar", file);
+              user.save();
               console.log(user);
             })
             .catch(console.error);
@@ -125,34 +125,24 @@ export default {
   mounted() {},
   onShow() {
     try {
-      var value = wx.getStorageSync("Cname"); //拿到存储的数据，使用同步的概念,奇怪的是必须用大写字母开头的命名
-      var id = wx.getStorageSync("Cid");
-      console.log("Cname", value);
-      console.log("Cid", id);
+      var id = wx.getStorageSync("Cid"); //拿到存储的数据，使用同步的概念,奇怪的是必须用大写字母开头的命名
       // 第一个参数是 className，第二个参数是 objectId
       var todo = AV.Object.createWithoutData("_User", id);
-
       todo
         .fetch()
         .then(todo => {
           console.log("当前user：", todo.toJSON());
+          this.username = todo.toJSON().username;
           this.live = todo.toJSON().live[2];
+          this.avatar = todo.toJSON().avatar.url;
           this.wantgo = todo.toJSON().wantgo[2];
           this.oneword = todo.toJSON().oneword;
           this.playtime = todo.toJSON().play.substring(0, 10); //截取时间的前11位
           this.borntime = todo.toJSON().born.substring(0, 10);
-
-          console.log("live", this.live);
         })
         .catch(function(error) {
-          // 异常处理
           console.error(error);
         });
-
-      if (value) {
-        this.username = value;
-        console.log("Cid", id);
-      }
     } catch (e) {
       console.log("U X!", e);
     }
