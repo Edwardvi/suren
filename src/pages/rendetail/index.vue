@@ -28,7 +28,7 @@
       <div class="weui-tab__content" :hidden="activeIndex != 0">
         <pic></pic>
 
-        <button style="margin:30rpx;" @click="chooseimage">获取图片</button>
+        <button style="margin:30rpx;" @click="upimagetouser">upload图片</button>
         <img :src="tempFilePaths" mode="aspecFill" style="width: 100%; height: 450rpx">
       </div>
       <div class="weui-tab__content" :hidden="activeIndex != 1">
@@ -92,110 +92,37 @@ export default {
       console.log(e);
       this.activeIndex = e.currentTarget.id;
     },
-    chooseImg() {
-      let that = this;
+
+    upimagetouser() {
       wx.chooseImage({
-        count: 9 - that.tempFilePathsArr.length, // 默认最多一次选择9张图
+        count: 1, // 默认9
         sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
         sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
-        success: function(res) {
-          // 支持多图上传
-          for (var i = 0; i < res.tempFilePaths.length; i++) {
-            // 验证格式
-            if (!/.(jpg|jpeg|png)$/i.test(res.tempFilePaths[i])) {
-              console.log(
-                "第" + (i + 1) + "图片格式不对，格式必须是jpeg,jpg,png中的一种"
-              );
-              return;
-            }
-            // 显示消息提示框
-            wx.showLoading({
-              title: "图片上传中...",
-              mask: true
-            });
-            // 参数： 上传的图片临时文件路径、签名、成功回调、失败回调
-            uploadImage(
-              res.tempFilePaths[i],
-              that.sign,
-              function(result) {
-                console.log("======上传成功图片地址为：", result);
-                // 做你具体的业务逻辑操作
-                that.tempFilePathsArr.push(result);
-                console.log(that.tempFilePathsArr);
-                wx.hideLoading();
-              },
-              function(result) {
-                console.log("======上传失败======", result);
-                // 做你具体的业务逻辑操作
-                wx.hideLoading();
-              }
-            );
-          }
-        }
-      });
-    },
-    deleteImg(index) {
-      let that = this;
-      wx.showModal({
-        title: "提示",
-        content: "确定删除这张照片吗？",
-        confirmColor: "#c6ae6c",
         success(res) {
-          if (res.confirm) {
-            that.tempFilePathsArr.splice(index, 1);
-          } else if (res.cancel) {
-            console.log("用户点击取消");
-          }
-        }
-      });
-    },
-    // 小程序图片预览
-    previewImage: function(e, item) {
-      console.log("item" + JSON.stringify(item));
-      wx.previewImage({
-        current: item, // 当前显示图片的http链接
-        urls: this.tempFilePathsArr // 需要预览的图片http链接列表
-      });
-    },
-    // 提交审核
-    toUpload() {
-      if (this.tempFilePathsArr.length === 0) {
-        wx.showToast({
-          title: "请上传图片",
-          icon: "none",
-          duration: 2000
-        });
-        return false;
-      }
-      // 接下来做自己的操作
-      // this.tempFilePathsArr 图片数组
-    },
-    chooseimage() {
-    
-      wx.chooseImage({
-        count: 9, // 默认9
-        sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
-        sourceType: ["album", "camera"], // 可以指定来源是相册还是相机，默认二者都有
-        success: function(res) {
           // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-          let tempFilePaths = res.tempFilePaths
+          const tempFilePaths = res.tempFilePaths;
           wx.setStorageSync("TempFilePaths", tempFilePaths);
-          var tempFilePath = res.tempFilePaths[0];
-          new AV.File("file-name", {
+          let tempFilePath = res.tempFilePaths[0];
+          let C_fname = wx.getStorageSync("Cname");
+          const avatarfile = new AV.File(C_fname, {
             blob: {
               uri: tempFilePath
-            }
-          })
+            } //Blob 对象表示一个不可变、原始数据的类文件对象？这里不懂
+          });
+          wx.setStorageSync("Avatar", avatarfile);
+          avatarfile
             .save()
-            .then(file => console.log(file.url()))
+            .then(file => {
+              const user = AV.User.current();
+              user.set("avatar", file);
+              console.log(user);
+            })
             .catch(console.error);
         }
       });
     }
   },
-  mounted() {
-    
-  },
+  mounted() {},
   onShow() {
     try {
       var value = wx.getStorageSync("Cname"); //拿到存储的数据，使用同步的概念,奇怪的是必须用大写字母开头的命名
