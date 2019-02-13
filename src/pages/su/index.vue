@@ -12,17 +12,6 @@
 import card from "@/components/card";
 import smcard from "@/components/smcard";
 var AV = require("leancloud-storage");
-// var query = new AV.Query("_User");
-// query.get("5b9a0eea1579a3003a4154d3").then(
-//   function(todo) {
-//     // 成功获得实例
-//     console.log(todo);
-//     // todo 就是 id 为 57328ca079bc44005c2472d0 的 Todo 对象实例
-//   },
-//   function(error) {
-//     // 异常处理
-//   }
-// );
 
 export default {
   components: {

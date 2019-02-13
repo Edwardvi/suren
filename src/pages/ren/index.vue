@@ -58,7 +58,7 @@
         </div>
         <div class="weui-cell weui-cell_select" v-if="step1 == 1">
           <div class="weui-cell__hd weui-cell__hd_in-select-after">
-            <div class="weui-label">想去/招募地点</div>
+            <div class="weui-label">Want Place</div>
           </div>
           <div class="weui-cell__bd">
             <picker class="weui-btn" mode="region" value="city" @change="CityChange">
@@ -68,7 +68,7 @@
         </div>
         <div class="weui-cell weui-cell_input" v-if="step1 == 1">
           <div class="weui-cell__hd">
-            <div class="weui-label">打工/招募时间</div>
+            <div class="weui-label">Want Time</div>
           </div>
           <div class="weui-cell__bd">
             <picker
@@ -146,7 +146,7 @@ export default {
       date: "",
       playtime: "",
       userInfo: {},
-      region: ["广东省", "广州市", "海珠区"],
+      region: [],
       home: ["西藏自治区", "林芝地区", "墨脱县"],
       city: ["西藏自治区", "林芝地区", "墨脱县"],
       isAgree: true,
@@ -162,39 +162,26 @@ export default {
   },
   methods: {
     login() {
-      // try {
-      //   let value = wx.getStorageSync("Cname"); //拿到存储的数据，使用同步的概念,奇怪的是必须用大写字母开头的命名
-      //   if (value) {
-      //     // this.isShow = false; // 判断订单也是否有数据，没有数据则用v-show引用一个组件去渲染页面
-      //     this.username = value;
-      //     console.log("cname", value);
-      //     //数据渲染页面
-      //   }
-      // } catch (e) {
-      //   console.log(e);
-      // }
+      try {
+        wx.setStorageSync("Cname", this.Username); //把用户输入的名字作为当前cname存到本地。
+      } catch (e) {
+        console.log(e);
+      }
+
       const user = AV.User.current();
-      // user.setPassword(this.Password);
       user.setUsername(this.Username);
       user.set("live", this.home);
-      // user.set("liveprovince", this.home[0]);
-      // user.set("livecity", this.home[1]);
-      // user.set("liveregion", this.home[2]);
       user.set("wantgo", this.city);
-      // user.set("wantgoprovince", this.city[0]);
-      // user.set("wantgocity", this.city[1]);
-      // user.set("wantgoregion", this.city[2]);
       user.set("oneword", this.oneword);
       user.set("born", this.born);
       user.set("play", this.play);
       user.setMobilePhoneNumber(this.mobilePhoneNumber);
-      // user.setEmail(this.Email);
       user
         .save()
         .then(user => {
           // 成功，此时可在控制台中看到更新后的用户信息
           this.globalData.user = user.toJSON();
-          console.log(user);
+          console.log("user:", user);
         })
         .catch(error => {
           wx.showModal({
@@ -209,6 +196,13 @@ export default {
           });
           console.log(1, error);
         });
+      try {
+        wx.setStorageSync("Cid", user.id); //把注册完的用户id作为当前cid存到本地。
+      } catch (e) {
+        console.log(e);
+      }
+      console.log("Cid", user.id);
+      
       this.step1 = this.step1 + 1;
       if (this.step1 == 2) {
         wx.showToast({
@@ -216,7 +210,7 @@ export default {
           icon: "success",
           duration: 2000
         });
-        wx.navigateTo({url: '../rendetail/main'});
+        wx.navigateTo({ url: "../rendetail/main" });
       }
     },
 

@@ -6,7 +6,7 @@
         <li class="Nora-Bravo" >{{uuname}}
           <card :text="motto"></card>
         </li>
-        <div class="yijuhua">{{uuemail}}
+        <div class="yijuhua">{{uuoneword}}
         </div>    
       </ul>
     </a>
@@ -21,7 +21,7 @@ export default {
     return {
       motto: [],
       uuname: [],
-      uuemail: [],
+      uuoneword: [],
       uid: []
     };
   },
@@ -36,11 +36,12 @@ export default {
       console.log("333", e.currentTarget.dataset.current);
 
       console.log(this.u);
-      
     
       const currentUname = this.u.attributes.username; //mac下用这行可以获得username，同时在html里把u变为this.u
+      const currentUid = this.u.id; 
       try {
         wx.setStorageSync("Cname", currentUname);//把用户名存入本地。
+        wx.setStorageSync("Cid", currentUid);//把用户id存入本地。
       } catch (e) {
         console.log(e);
       }
@@ -54,7 +55,7 @@ export default {
   },
   mounted() {
     this.uuname = this.u.attributes.username;
-    this.uuemail = this.u.attributes.email;  
+    this.uuoneword = this.u.attributes.oneword;  
   }
 };
 </script>
