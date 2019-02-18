@@ -1,14 +1,15 @@
 <template>
   <div class="container">
     <div class="Top">
+      <img id="touxiang" :src="avatar" mode="aspectFill" style="  background-color: #eeeeee;">
+      <!-- aspecFill 保持纵横比缩放图片，只保证图片的短边能完全显示出来。也就是说，图片通常只在水平或垂直方向是完整的，另一个方向将会发生截取。 -->
       <div class="zuoxia">
         <div class="name">{{username}}</div>
         <div class="dizhi">{{live}}</div>
         <div class="sixin">
-          <a class="center" href>私信</a>
+          <!-- <a class="center" href>私信</a> -->
         </div>
-      </div>zheshi ge piaoliang de img
-      <img src alt>
+      </div>
     </div>
     <div class="bar">
       <block v-for="(item,index) in tabs" :key="index">
@@ -29,7 +30,6 @@
         <pic></pic>
 
         <button style="margin:30rpx;" @click="upimagetouser">upload图片</button>
-        <img :src="avatar" mode="aspecFill" style="width: 100%; height: 450rpx">
       </div>
       <div class="weui-tab__content" :hidden="activeIndex != 1">
         <div class="mid">
@@ -135,6 +135,7 @@ export default {
           this.username = todo.toJSON().username;
           this.live = todo.toJSON().live[2];
           this.avatar = todo.toJSON().avatar.url;
+          console.log(this.avatar);
           this.wantgo = todo.toJSON().wantgo[2];
           this.oneword = todo.toJSON().oneword;
           this.playtime = todo.toJSON().play.substring(0, 10); //截取时间的前11位
@@ -167,15 +168,22 @@ export default {
 .Top {
   width: 100%;
   height: 320px;
-  background-image: linear-gradient(
+  /* position: relative; */
+
+  /* background-image: linear-gradient(
     to bottom,
     rgba(87, 87, 87, 0),
     rgba(2, 2, 2, 0.93)
-  );
+  ); */
+}
+
+#touxiang {
+  width: 100%;
+  height: 320px;
 }
 
 .zuoxia {
-  margin-top: 60%;
+  margin-top: -30%;
   margin-left: 6%;
 }
 
@@ -210,7 +218,7 @@ export default {
   width: 68px;
   height: 26px;
   border-radius: 2px;
-  background-color: #431c60;
+  /* background-color: #431c60; */
   margin-top: 5%;
   line-height: 26px; /*与height 相等时，可以垂直剧中此元素中的内容*/
   text-align: center;
@@ -312,10 +320,6 @@ export default {
   background: rgba(245, 245, 245, 1);
   border-radius: 2px;
   margin: 10rpx 10rpx 0 0;
-}
-img {
-  width: 80rpx;
-  height: 80rpx;
 }
 
 .uploadDiv {
