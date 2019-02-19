@@ -30,19 +30,22 @@ export default {
     qq() {
       var query = new AV.Query("_User");
       var now = new Date();
-      var i;
       query.lessThanOrEqualTo("createdAt", now);
-      query.limit(5);
+      query.include('avatar');
+      query.limit(10);
       query
         .find()
-        .then(results => {
+        .then(results => {   
           this.ulist = results;
+          console.log(results[0])
 
           for (let u of this.ulist) {
             this.username = u.attributes.username;
+            this.oneword = u.get('oneword')
           }
           console.log("uname", this.username);
           console.log("ulist", this.ulist);
+          console.log("ulist", this.oneword);
         })
         .catch(function(error) {
           // catch 方法写在 Promise 链式的最后，可以捕捉到全部 error
@@ -52,51 +55,41 @@ export default {
     clickHandle(msg, ev) {
       console.log("clickHandle:", msg, ev);
     },
-    gorendetail(username) {
-      var query = new AV.Query("_User");
-      query.equalTo("username", username);
-      query
-        .find()
-        .then(results => {
-          this.user = results;
-          console.log("user:", this.user);
-        })
-        .catch(function(error) {
-          console.error(error);
-        });
-      // href="/pages/rendetail/main"
-    },
-    fetchTodos: function(user) {
-      console.log("uid", user.id);
-      const query = new AV.Query(Todo)
-        .equalTo("user", AV.Object.createWithoutData("User", user.id))
-        .descending("createdAt");
-      const setTodos = this.setTodos.bind(this);
-      return AV.Promise.all([query.find().then(setTodos), query.subscribe()])
-        .then(([todos, subscription]) => {
-          this.subscription = subscription;
-          if (this.unbind) this.unbind();
-          this.unbind = bind(subscription, todos, setTodos);
-        })
-        .catch(error => console.error(error.message));
-    }
+    // gorendetail(username) {
+    //   var query = new AV.Query("_User");
+    //   query.equalTo("username", username);
+    //   query
+    //     .find()
+    //     .then(results => {
+    //       this.user = results;
+    //       console.log("user:", this.user);
+    //     })
+    //     .catch(function(error) {
+    //       console.error(error);
+    //     });
+    //   // href="/pages/rendetail/main"
+    // },
+    // fetchTodos: function(user) {
+    //   console.log("uid", user.id);
+    //   const query = new AV.Query(Todo)
+    //     .equalTo("user", AV.Object.createWithoutData("User", user.id))
+    //     .descending("createdAt");
+    //   const setTodos = this.setTodos.bind(this);
+    //   return AV.Promise.all([query.find().then(setTodos), query.subscribe()])
+    //     .then(([todos, subscription]) => {
+    //       this.subscription = subscription;
+    //       if (this.unbind) this.unbind();
+    //       this.unbind = bind(subscription, todos, setTodos);
+    //     })
+    //     .catch(error => console.error(error.message));
+    // }
   },
   mounted() {
     this.qq();
-    // this.gorendetail()
+
   },
   created() {
-    // query.select(["username", "email"]);
-    // query.first().then(
-    //   function(todo) {
-    //     console.log(todo.get("username")); // √ 此段代码为获取特定属性
-    //     console.log(todo.get("email")); // √
-    //     console.log(todo.get("location")); // undefined
-    //   },
-    //   function(error) {
-    //     // 异常处理
-    //   }
-    // );
+
   }
 };
 </script>
