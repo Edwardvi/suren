@@ -61,7 +61,7 @@ export default {
     var query = new AV.Query("_User");
     var now = new Date();
     query.lessThanOrEqualTo("createdAt", now);
-    query.include("avatar");
+    // query.include("avatar");
     query.limit(10);
     query
       .find()
@@ -70,23 +70,19 @@ export default {
         console.log(results[0]);
 
         for (let u of this.ulist) {
-          this.username = u.attributes.username;
-          this.oneword = u.get("oneword");
+          // this.username = u.attributes.username;
+          // this.oneword = u.get("oneword");
           console.log("ulist", this.u);
         }
-        console.log("uname", this.username);
-        
-        
+        // console.log("uname", this.username);
       })
       .catch(function(error) {
         // catch 方法写在 Promise 链式的最后，可以捕捉到全部 error
         console.error(error);
       });
-    // console.log("ulist", );      
+    // console.log("ulist", );
   },
-  created() {
-    
-  }
+  created() {}
 };
 </script>
 

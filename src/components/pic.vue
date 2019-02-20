@@ -4,7 +4,7 @@
     <div class="tu"></div> 
     <div class="tu"></div> 
     <div class="tu"></div> 
-    <div class="tu"></div> 
+    <a class="tu" @click="upimagetouser">+</a>
   </div>
 </template>
 

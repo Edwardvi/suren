@@ -10,6 +10,7 @@
           <!-- <a class="center" href>私信</a> -->
         </div>
       </div>
+      <button id="youshang" @click="upimagetouser">改</button>
     </div>
     <div class="bar">
       <block v-for="(item,index) in tabs" :key="index">
@@ -29,7 +30,7 @@
       <div class="weui-tab__content" :hidden="activeIndex != 0">
         <pic></pic>
 
-        <button style="margin:30rpx;" @click="upimagetouser">upload图片</button>
+        
       </div>
       <div class="weui-tab__content" :hidden="activeIndex != 1">
         <div class="mid">
@@ -175,6 +176,19 @@ export default {
     rgba(87, 87, 87, 0),
     rgba(2, 2, 2, 0.93)
   ); */
+}
+
+#youshang {
+  width: 26px;
+  height: 26px;
+  border-radius: 2px;
+  background-color: #431c60;
+  padding: 0%;
+  margin-top: -75%;
+  margin-right: 6%;
+  line-height: 26px; /*与height 相等时，可以垂直剧中此元素中的内容*/
+  text-align: center;
+  color: #fff;
 }
 
 #touxiang {
