@@ -1,10 +1,8 @@
 <template>
   <div class="container" @click="clickHandle('test click', $event)">
-    
-   <smcard :key="index" v-for="(u, index) in ulist" :u='u' ></smcard>
-<!-- @click="getrendetail" -->
-   <a id="login" href="../ren/main">我也要出现在上面</a>
-
+    <smcard :key="index" v-for="(u, index) in ulist" :u="u"></smcard>
+    <!-- @click="getrendetail" -->
+    <a id="login" href="../ren/main">我也要出现在上面</a>
   </div>
 </template>
 
@@ -27,34 +25,9 @@ export default {
   },
 
   methods: {
-    qq() {
-      var query = new AV.Query("_User");
-      var now = new Date();
-      query.lessThanOrEqualTo("createdAt", now);
-      query.include('avatar');
-      query.limit(10);
-      query
-        .find()
-        .then(results => {   
-          this.ulist = results;
-          console.log(results[0])
-
-          for (let u of this.ulist) {
-            this.username = u.attributes.username;
-            this.oneword = u.get('oneword')
-          }
-          console.log("uname", this.username);
-          console.log("ulist", this.ulist);
-          console.log("ulist", this.oneword);
-        })
-        .catch(function(error) {
-          // catch 方法写在 Promise 链式的最后，可以捕捉到全部 error
-          console.error(error);
-        });
-    },
     clickHandle(msg, ev) {
       console.log("clickHandle:", msg, ev);
-    },
+    }
     // gorendetail(username) {
     //   var query = new AV.Query("_User");
     //   query.equalTo("username", username);
@@ -85,11 +58,34 @@ export default {
     // }
   },
   mounted() {
-    this.qq();
+    var query = new AV.Query("_User");
+    var now = new Date();
+    query.lessThanOrEqualTo("createdAt", now);
+    query.include("avatar");
+    query.limit(10);
+    query
+      .find()
+      .then(results => {
+        this.ulist = results;
+        console.log(results[0]);
 
+        for (let u of this.ulist) {
+          this.username = u.attributes.username;
+          this.oneword = u.get("oneword");
+          console.log("ulist", this.u);
+        }
+        console.log("uname", this.username);
+        
+        
+      })
+      .catch(function(error) {
+        // catch 方法写在 Promise 链式的最后，可以捕捉到全部 error
+        console.error(error);
+      });
+    // console.log("ulist", );      
   },
   created() {
-
+    
   }
 };
 </script>
@@ -125,6 +121,4 @@ export default {
   color: blue;
   border: 1px solid blue;
 }
-
-
 </style>

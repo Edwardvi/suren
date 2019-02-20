@@ -1,15 +1,14 @@
 <template>
-    <a :href="detailUrl" class="userinfo" :data-current="this.u" @click="ddd" >
-      <ul class="Base-Chip-for-User"  >
-        <div class="Avatar" > 
-        </div>
-        <li class="Nora-Bravo" >{{uuname}}
-          <card :text="motto"></card>
-        </li>
-        <div class="yijuhua">{{uuoneword}}
-        </div>    
-      </ul>
-    </a>
+  <a :href="detailUrl" class="userinfo" :data-current="this.u" @click="ddd">
+    <ul class="Base-Chip-for-User">
+      <img class="Avatar" :src="avatar" mode="aspectFill" style="  background-color: #eeeeee;">
+      <li class="Nora-Bravo">
+        {{uuname}}
+        <card :text="motto"></card>
+      </li>
+      <div class="yijuhua">{{uuoneword}}</div>
+    </ul>
+  </a>
 </template>
 
 <script>
@@ -22,7 +21,8 @@ export default {
       motto: [],
       uuname: [],
       uuoneword: [],
-      uid: []
+      uid: [],
+      avatar: ""
     };
   },
 
@@ -35,13 +35,11 @@ export default {
       let current = e.currentTarget.dataset.current;
       console.log("333", e.currentTarget.dataset.current);
 
-      console.log(this.u);
-    
       const currentUname = this.u.attributes.username; //mac下用这行可以获得username，同时在html里把u变为this.u
-      const currentUid = this.u.id; 
+      const currentUid = this.u.id;
       try {
-        wx.setStorageSync("Cname", currentUname);//把用户名存入本地。
-        wx.setStorageSync("Cid", currentUid);//把用户id存入本地。
+        wx.setStorageSync("Cname", currentUname); //把用户名存入本地。
+        wx.setStorageSync("Cid", currentUid); //把用户id存入本地。
       } catch (e) {
         console.log(e);
       }
@@ -54,8 +52,16 @@ export default {
     }
   },
   mounted() {
-    this.uuname = this.u.attributes.username;
-    this.uuoneword = this.u.attributes.oneword;  
+    // this.uuname = this.u.attributes.username;
+    let smcardId = this.u.id;
+    console.log(smcardId);
+    var query = new AV.Query("_User");
+    query.get(smcardId).then(u => {
+      // console.log(u);
+      this.uuname = u.get("username");
+      this.uuoneword = u.get("oneword");
+      this.avatar = u.toJSON().avatar.url;
+    });
   }
 };
 </script>
