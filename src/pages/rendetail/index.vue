@@ -28,7 +28,7 @@
 
     <div class="weui-tab__panel">
       <div class="weui-tab__content" :hidden="activeIndex != 0">
-        <pic></pic>
+        <pic :id='id'></pic>
 
         
       </div>
@@ -56,7 +56,7 @@ import midcard from "@/components/midcard";
 const AV = require("leancloud-storage");
 
 export default {
-  props: ["u"],
+
   components: {
     pic,
     midcard
@@ -72,7 +72,8 @@ export default {
       oneword: "",
       wantgo: "",
       playtime: "",
-      avatar: ""
+      avatar: "",
+      id:"",
     };
   },
   computed: {
@@ -126,9 +127,9 @@ export default {
   mounted() {},
   onShow() {
     try {
-      var id = wx.getStorageSync("Cid"); //拿到存储的数据，使用同步的概念,奇怪的是必须用大写字母开头的命名
+      this.id = wx.getStorageSync("Cid"); //拿到存储的数据，使用同步的概念,奇怪的是必须用大写字母开头的命名
       // 第一个参数是 className，第二个参数是 objectId
-      var todo = AV.Object.createWithoutData("_User", id);
+      var todo = AV.Object.createWithoutData("_User", this.id);
       todo
         .fetch()
         .then(todo => {
