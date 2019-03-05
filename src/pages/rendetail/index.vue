@@ -137,7 +137,6 @@ export default {
           this.username = todo.toJSON().username;
           this.live = todo.toJSON().live[2];
           this.avatar = todo.toJSON().avatar.url;
-          console.log(this.avatar);
           this.wantgo = todo.toJSON().wantgo[2];
           this.oneword = todo.toJSON().oneword;
           this.playtime = todo.toJSON().play.substring(0, 10); //截取时间的前11位

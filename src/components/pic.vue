@@ -1,13 +1,16 @@
 <template>
   <div class="piclist">
     <div class="tu" :key="index" v-for="(i, index) in xiangce">
-      <img class="Avatar" :src="i" mode="aspectFill" style="background-color: #eeeeee;">
+      <img class="Avatar" :src="i" :data-src="i" mode="aspectFill" @click="look">
     </div>
-    <a class="tu" @click="upimagestouser">+</a>
+    <div class="tu" @click="upimagestouser">
+      <a class="Avatar">+
+        <br>上传照片
+        <br>最多九张
+      </a>
+    </div>
   </div>
 </template>
-
-
 
 <script>
 const AV = require("leancloud-storage");
@@ -17,7 +20,8 @@ export default {
   data() {
     return {
       user: "",
-      xiangce: ""
+      xiangce: "",
+      isShow: true
     };
   },
   methods: {
@@ -30,7 +34,7 @@ export default {
         success(res) {
           res.tempFilePaths
             .map(tempFilePath => () =>
-              new AV.File("tupianwenjian", {
+              new AV.File("pengyouquan", {
                 blob: {
                   uri: tempFilePath
                 }
@@ -53,14 +57,28 @@ export default {
             .catch(console.error);
         }
       });
+    },
+    look(e) {
+      this.isShow = false //用全局变量控制返回时不重载，但是没成功
+      const currentpic = e.currentTarget.dataset.src;
+      wx.previewImage({
+        current: currentpic, // 当前显示图片的http链接
+        urls: this.xiangce // 需要预览的图片http链接列表
+      });
     }
   },
   mounted() {
-    var query = new AV.Query("_User");
-    query.get(this.id).then(u => {
-      // this.xiangce = u.xiangce.map(file => file.url());
-      console.log('xiangce',u);
-    });
+    if (this.isShow) {
+      var query = new AV.Query("_File");
+      query.equalTo("metaData", { owner: this.id });
+      query.find().then(u => {
+        this.xiangce = u.map(i => i.attributes.url);
+        console.log("xiangce", this.xiangce);
+      });
+    } else {
+      this.isShow = true;
+      return;
+    }
   }
 };
 </script>
@@ -79,9 +97,14 @@ export default {
 
 .tu {
   display: inline-block;
-  width: 24.25%;
+  width: 25%;
   height: 90px;
-  padding: 0.6% 0.6% 0 0;
-  background: wheat;
+  margin-top: 1%;
+
+  /* background: wheat; */
+}
+.Avatar {
+  margin: auto;
+  /* justify-content: center; */
 }
 </style>
